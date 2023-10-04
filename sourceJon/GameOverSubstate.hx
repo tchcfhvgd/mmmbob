@@ -7,6 +7,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.system.System;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -83,7 +84,7 @@ class GameOverSubstate extends MusicBeatSubstate
 					#else
 						FlxG.openURL(website[0]);
 					#end
-					Sys.exit(0);
+					System.exit(0);
 				}
 		}
 		

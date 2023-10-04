@@ -55,7 +55,7 @@ class TitleState extends MusicBeatState
 		
 		PlayerSettings.init();
 
-		#if windows
+		#if desktop
 		Discord.initialize();
 		#end
 

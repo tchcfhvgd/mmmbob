@@ -5,6 +5,7 @@ import Song.SwagSong;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.system.System;
 
 /**
  * ...
@@ -117,7 +118,7 @@ class EndingState extends FlxState
 															neverforget.text = "I L L  N E V E R  F O R G E T  Y O U";
 															new FlxTimer().start(3, function(deadTime:FlxTimer)
 															{
-																Sys.exit(0);
+																System.exit(0);
 															});
 														});
 													});

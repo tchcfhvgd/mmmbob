@@ -5,6 +5,7 @@ import Song.SwagSong;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.system.System;
 
 /**
  * ...
@@ -104,7 +105,7 @@ class OnslaughtEndingState extends FlxState
 													add(neverforget);
 													new FlxTimer().start(3, function(deadTime:FlxTimer)
 													{
-														Sys.exit(0);
+														System.exit(0);
 													});
 												});
 											});

@@ -54,7 +54,7 @@ class MainMenuState extends MusicBeatState
 		{
 			GuyAppears(FlxG.random.int(1, 3));
 		}**/
-		#if windows
+		#if desktop
 		// Updating Discord Rich Presence
 		Discord.changePresence("In the Menus", null);
 		#end
