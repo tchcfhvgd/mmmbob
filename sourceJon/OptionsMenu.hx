@@ -40,19 +40,14 @@ class OptionsMenu extends MusicBeatState
 		new OptionCatagory("Appearence", [
 			new SongPositionOption("Show the songs current position (as a bar)"),
 			new DownscrollOption("Change the layout of the strumline."),
-			#if !html
 			new RainbowFPSOption("Make the FPS Counter Rainbow (Only works with the FPS Counter toggeled on)"),
-			#end
 			new AccuracyOption("Display accuracy information."),
 			new NPSDisplayOption("Shows your current Notes Per Second.")
 		]),
-		#if !mobile
-		new OptionCatagory("Misc", [
-			
+		new OptionCatagory("Misc", [			
 			new FPSOption("Toggle the FPS Counter"),
 			new ReplayOption("View replays")
 		])
-		#end
 	];
 
 	private var currentDescription:String = "";
@@ -210,36 +205,23 @@ class OptionsMenu extends MusicBeatState
 	{
 		FlxG.sound.play(Paths.sound("scrollMenu"), 0.4);
 
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = grpControls.length - 1;
-		if (curSelected >= grpControls.length)
-			curSelected = 0;
+		curSelected = FlxMath.wrap(curSelected + change, 0, grpControls.length - 1);
 
 		if (isCat)
 			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
 		else
 			currentDescription = "Please select a catagory";
-		versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset + " - Description - " + currentDescription;
 
-		// selector.y = (70 * curSelected) + 30;
+		versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset + " - Description - " + currentDescription;
 
 		var bullShit:Int = 0;
 
 		for (item in grpControls.members)
 		{
 			item.targetY = bullShit - curSelected;
+			item.alpha = item.targetY == 0 ? 1 : 0.6;
+
 			bullShit++;
-
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
 		}
 	}
 }
