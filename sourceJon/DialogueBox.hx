@@ -47,9 +47,6 @@ class DialogueBox extends FlxSpriteGroup
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'senpai':
-				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
-				FlxG.sound.music.fadeIn(1, 0, 0.8);
 			case 'sunshine':
 				FlxG.sound.playMusic(Paths.music('PhaseOne'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
@@ -58,9 +55,6 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 			case 'run':
 				FlxG.sound.playMusic(Paths.music('PhaseThreeRUNRUNHESCOMING'), 0);
-				FlxG.sound.music.fadeIn(1, 0, 0.8);
-			case 'thorns':
-				FlxG.sound.playMusic(Paths.music('LunchboxScary'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
@@ -111,9 +105,6 @@ class DialogueBox extends FlxSpriteGroup
 				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
 				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
 				box.animation.addByIndices('normal', 'Spirit Textbox spawn', [11], "", 24);
-				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
-				face.setGraphicSize(Std.int(face.width * 6));
-				add(face);
 			case 'little-man':
 				hasDialog = false;
 			default:
@@ -253,10 +244,6 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue.color = 0xFF3F2021;
 		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
 		add(swagDialogue);
-
-		dialogue = new Alphabet(0, 80, "", false, true);
-		// dialogue.x = 90;
-		// add(dialogue);
 	}
 
 	var dialogueOpened:Bool = false;
@@ -294,8 +281,7 @@ class DialogueBox extends FlxSpriteGroup
 		if (FlxG.keys.justPressed.ANY  && dialogueStarted == true)
 		{
 			if (caniskip == true)
-			{
-				remove(dialogue);
+			{}
 				FlxG.sound.play(Paths.sound('clickText'), 0.8);
 				if (dialogueList[1] == null && dialogueList[0] != null)
 				{
@@ -347,19 +333,10 @@ class DialogueBox extends FlxSpriteGroup
 	function startDialogue():Void
 	{
 		cleanDialog();
-		// var theDialog:Alphabet = new Alphabet(0, 70, dialogueList[0], false, true);
-		// dialogue = theDialog;
-		// add(theDialog);
-
-		// swagDialogue.text = ;
 
 		if (dialogueList[0] == '....' && curCharacter == 'gloopBob')
 		{
-			#if linux
-				Sys.command('/usr/bin/xdg-open', ['https://ayetsg.github.io/img/bob_says_fuck_you.jpg', "&"]);
-			#else
-				FlxG.openURL('https://ayetsg.github.io/img/bob_says_fuck_you.jpg');
-			#end
+			FlxG.openURL('https://ayetsg.github.io/img/bob_says_fuck_you.jpg');
 		}
 		
 		if (dialogueList[0] == 'this is the part where bob absolubley destroys the dialog box like an awesome person' && curCharacter == 'dad')
