@@ -9,8 +9,7 @@ import flixel.input.FlxKeyManager;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.system.FlxSound;
-
+import flixel.sound.FlxSound;
 
 using StringTools;
 
@@ -70,7 +69,8 @@ class DialogueBox extends FlxSpriteGroup
 				bgFade.alpha = 0.7;
 		}, 5);
 		
-		var hasDialog = false;
+		var hasDialog:Bool = false;
+
 		switch (PlayState.SONG.song.toLowerCase())
 		{
 			case 'withered':
@@ -86,25 +86,6 @@ class DialogueBox extends FlxSpriteGroup
 				box.frames = Paths.getSparrowAtlas('bob/dialogueBox-bobevil');
 				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
-			case 'senpai':
-				box = new FlxSprite(-20, 45);
-				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel');
-				box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
-				box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
-			case 'roses':
-				box = new FlxSprite(-20, 45);
-				hasDialog = true;
-				FlxG.sound.play(Paths.sound('ANGRY_TEXT_BOX'));
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-senpaiMad');
-				box.animation.addByPrefix('normalOpen', 'SENPAI ANGRY IMPACT SPEECH', 24, false);
-				box.animation.addByIndices('normal', 'SENPAI ANGRY IMPACT SPEECH', [4], "", 24);
-			case 'thorns':
-				box = new FlxSprite(-20, 45);
-				hasDialog = true;
-				box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
-				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
-				box.animation.addByIndices('normal', 'Spirit Textbox spawn', [11], "", 24);
 			case 'little-man':
 				hasDialog = false;
 			default:
@@ -116,6 +97,7 @@ class DialogueBox extends FlxSpriteGroup
 		}
 
 		this.dialogueList = dialogueList;
+
 		if (PlayState.SONG.song.toLowerCase() == 'onslaught')
 		{
 			portraitGloop = new FlxSprite(0, 0);
@@ -136,8 +118,10 @@ class DialogueBox extends FlxSpriteGroup
 			add(portraitGloop);
 			portraitGloop.visible = false;
 		}
+
 		if (!hasDialog)
 			return;
+
 		if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'roses' || PlayState.SONG.song.toLowerCase() == 'thorns')
 		{
 			portraitLeft = new FlxSprite(-20, 40);
@@ -214,26 +198,16 @@ class DialogueBox extends FlxSpriteGroup
 		portraitRightGF.scrollFactor.set();
 		add(portraitRightGF);
 		portraitRightGF.visible = false;
-		
-		box.animation.play('normalOpen');
-		if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'roses' || PlayState.SONG.song.toLowerCase() == 'thorns')
-		{
-			box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
-		}
-		box.updateHitbox();
-		add(box);
-
-		box.screenCenter(X);
 
 		if (PlayState.SONG.song.toLowerCase() == 'onslaught')
 			portraitGloop.screenCenter(X);
 		else
 			portraitLeft.screenCenter(X);
 
-		if (!talkingRight)
-		{
-			// box.flipX = true;
-		}
+		box.animation.play('normalOpen');
+		box.screenCenter(X);
+		add(box);
+
 		dropText = new FlxText(242, 438, Std.int(FlxG.width * 0.6), "", 32);
 		dropText.font = 'Pixel Arial 11 Bold';
 		dropText.color = 0xFFD89494;
@@ -254,7 +228,7 @@ class DialogueBox extends FlxSpriteGroup
 		// HARD CODING CUZ IM STUPDI
 		if (PlayState.SONG.song.toLowerCase() == 'roses')
 			portraitLeft.visible = false;
-		if (PlayState.SONG.song.toLowerCase() == 'thorns')
+		else if (PlayState.SONG.song.toLowerCase() == 'thorns')
 		{
 			portraitLeft.color = FlxColor.BLACK;
 			swagDialogue.color = FlxColor.WHITE;
@@ -281,8 +255,9 @@ class DialogueBox extends FlxSpriteGroup
 		if (FlxG.keys.justPressed.ANY  && dialogueStarted == true)
 		{
 			if (caniskip == true)
-			{}
+			{
 				FlxG.sound.play(Paths.sound('clickText'), 0.8);
+
 				if (dialogueList[1] == null && dialogueList[0] != null)
 				{
 					if (!isEnding)
@@ -335,9 +310,7 @@ class DialogueBox extends FlxSpriteGroup
 		cleanDialog();
 
 		if (dialogueList[0] == '....' && curCharacter == 'gloopBob')
-		{
 			FlxG.openURL('https://ayetsg.github.io/img/bob_says_fuck_you.jpg');
-		}
 		
 		if (dialogueList[0] == 'this is the part where bob absolubley destroys the dialog box like an awesome person' && curCharacter == 'dad')
 		{
@@ -348,7 +321,7 @@ class DialogueBox extends FlxSpriteGroup
 			portraitRight.visible = false;
 			portraitRightBF.visible = false;
 			portraitRightGF.visible = false;
-			trace(dialogueList[0]);
+
 			new FlxTimer().start(0.6, function(tmr:FlxTimer)
 			{
 				FlxG.sound.play(Paths.sound('Squeaky'));
@@ -362,7 +335,6 @@ class DialogueBox extends FlxSpriteGroup
 		}
 		else
 		{
-			trace(dialogueList[0]);
 			swagDialogue.resetText(dialogueList[0]);
 			swagDialogue.start(0.04, true);
 
