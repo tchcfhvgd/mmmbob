@@ -10,6 +10,7 @@ class VideoState extends MusicBeatState
 {
 	var leSource:String;
 	var transClass:FlxState;
+	var fuckingVolume:Float = 1;
 	var video:FlxVideo;
 
 	public function new(source:String, toTrans:FlxState):Void
@@ -17,6 +18,10 @@ class VideoState extends MusicBeatState
 		super();
 
 		FlxG.autoPause = false;
+
+		fuckingVolume = FlxG.sound.music.volume;
+
+		FlxG.sound.music.volume = 0;
 
 		leSource = source;
 		transClass = toTrans;
@@ -34,7 +39,7 @@ class VideoState extends MusicBeatState
 			video.dispose();
 
 			FlxG.autoPause = true;
-
+			FlxG.sound.music.volume = fuckingVolume;
 			FlxG.switchState(transClass);
 		});
 		video.play(leSource);
