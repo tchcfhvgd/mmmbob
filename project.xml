@@ -8,7 +8,7 @@
 
 	<meta title="Bob's Onslaught" packageName="com.ninjamuffin99.funkin" package="com.ninjamuffin99.funkin" version="0.2.7.1" company="ninjamuffin99" />
 
-	<app file="BOB" main="Main" path="export" preloader="flixel.system.FlxPreloader" />
+	<app file="BOB" main="Main" path="exportJon" preloader="flixel.system.FlxPreloader" />
 
 	<!--Icon Settings -->
 
@@ -36,7 +36,7 @@
 	<assets path="assets/songs" library="songs" />
 	<assets path="assets/shared" library="shared" />
 
-	<source name="source" />
+	<source name="sourceJon" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
