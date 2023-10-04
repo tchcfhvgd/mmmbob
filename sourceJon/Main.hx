@@ -34,7 +34,7 @@ using StringTools;
 class Main extends Sprite
 {
 	var game:FlxGame;
-	var fpsCounter:FPS;
+	var fps:FPS;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -69,23 +69,23 @@ class Main extends Sprite
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		fps = new FPS(10, 3, 0xFFFFFF);
 		#if (mobile || switch)
-		fpsCounter.scaleX = fps.scaleY = Math.min(FlxG.stage.stageWidth / FlxG.width, FlxG.stage.stageHeight / FlxG.height);
+		fps.scaleX = fps.scaleY = Math.min(FlxG.stage.stageWidth / FlxG.width, FlxG.stage.stageHeight / FlxG.height);
 		#end
-		addChild(fpsCounter);
+		addChild(fps);
 
 		toggleFPS(FlxG.save.data.fps);
 	}
 
-	public function toggleFPS(fpsEnabled:Bool):Void
+	public function toggleFPS(enabled:Bool):Void
 	{
-		fpsCounter.visible = fpsEnabled;
+		fps.visible = enabled;
 	}
 
 	public function changeFPSColor(color:FlxColor)
 	{
-		fpsCounter.textColor = color;
+		fps.textColor = color;
 	}
 
 	public function setFPSCap(cap:Float)
@@ -100,7 +100,7 @@ class Main extends Sprite
 
 	public function getFPS():Float
 	{
-		return fpsCounter.currentFPS;
+		return fps.currentFPS;
 	}
 
 	private inline function onUncaughtError(event:UncaughtErrorEvent):Void
