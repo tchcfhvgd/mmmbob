@@ -28,7 +28,7 @@
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<assets path="assets/fonts" />
-	<assets path="assets/preload" rename="assets"/>
+	<assets path="assets/preload" rename="assets" />
 
 	<library name="songs" preload="true" />
 	<library name="shared" preload="true" />
