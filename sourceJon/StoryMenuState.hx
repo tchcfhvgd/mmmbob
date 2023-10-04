@@ -438,13 +438,13 @@ class StoryMenuState extends MusicBeatState
 			if (curWeek == 1) {
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-					LoadingState.loadAndSwitchState(new VideoState(Paths.video('ronPreCutscene'), new PlayState()));
+					FlxG.switchState(new VideoState(Paths.video('ronPreCutscene'), new PlayState()));
 				});
 			}
 
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				LoadingState.loadAndSwitchState(new PlayState(), true);
+				FlxG.switchState(new PlayState(), true);
 			});
 		}
 	}

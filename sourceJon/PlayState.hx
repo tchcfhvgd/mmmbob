@@ -25,7 +25,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -2220,7 +2220,7 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			offsetTesting = false;
-			LoadingState.loadAndSwitchState(new OptionsMenu());
+			FlxG.switchState(new OptionsMenu());
 			FlxG.save.data.offset = offsetTest;
 		}
 		else
@@ -2301,9 +2301,9 @@ class PlayState extends MusicBeatState
 
 					if (tempSong == 'ron') 
 					{
-						LoadingState.loadAndSwitchState(new VideoState(Paths.video('ronEndCutscene'), new PlayState()));
+						FlxG.switchState(new VideoState(Paths.video('ronEndCutscene'), new PlayState()));
 					} else {
-						LoadingState.loadAndSwitchState(new PlayState());
+						FlxG.switchState(new PlayState());
 					}
 				}
 			}

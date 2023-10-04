@@ -1,6 +1,6 @@
 package;
 import flixel.FlxSprite;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.util.FlxTimer;
 import flixel.*;
 import flixel.tweens.FlxEase;
