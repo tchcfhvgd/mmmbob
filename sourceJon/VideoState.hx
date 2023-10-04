@@ -24,9 +24,9 @@ class VideoState extends MusicBeatState
 	
 	override function create():Void
 	{
-		super.create();
-
 		add(new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK));
+
+		super.create();
 
 		video = new FlxVideo();
 		video.onEndReached.add(function()
@@ -45,6 +45,6 @@ class VideoState extends MusicBeatState
 		super.update(elapsed);
 		
 		if (controls.ACCEPT && video.isPlaying)
-			onEndReached.dispatch();
+			video.onEndReached.dispatch();
 	}
 }
