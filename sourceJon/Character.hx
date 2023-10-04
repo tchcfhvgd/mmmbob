@@ -120,6 +120,7 @@ class Character extends FlxSprite
 
 			case 'bf-spiked':
 				frames = Paths.getSparrowAtlas('bob/BfSpiked');
+
 				animation.addByPrefix('firstDeath', "BF idle dance", 24, false);
 				animation.addByIndices('deathLoop', "BF idle dance", [44], "", 24, true);
 				animation.addByIndices('deathConfirm', "BF idle dance", [44], "", 24, false);
@@ -127,15 +128,15 @@ class Character extends FlxSprite
 				addOffset('firstDeath', 287,79);
 				addOffset('deathLoop', 287, 79);
 				addOffset('deathConfirm', 287,79);
-				//playAnim('firstDeath');
+
 				// pixel bullshit
 				updateHitbox();
 				antialiasing = false;
 				flipX = true;
 
 			case 'glitched-bob':
-				tex = Paths.getSparrowAtlas('bob/ScaryBobAaaaah');
-				frames = tex;
+				frames = Paths.getSparrowAtlas('bob/ScaryBobAaaaah');
+
 				animation.addByPrefix('idle', "idle???-", 24, false);
 				animation.addByPrefix('singUP', 'up', 24, false);
 				animation.addByPrefix('singDOWN', 'down', 24, false);
@@ -144,8 +145,8 @@ class Character extends FlxSprite
 
 				addOffset('idle');
 			case 'bob':
-				tex = Paths.getSparrowAtlas('bob/bob_asset');
-				frames = tex;
+				frames = Paths.getSparrowAtlas('bob/bob_asset');
+
 				animation.addByPrefix('idle', "bob_idle", 24, false);
 				animation.addByPrefix('singUP', 'bob_UP', 24, false);
 				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
@@ -157,8 +158,8 @@ class Character extends FlxSprite
 				flipX = true;
 
 				case 'gloop-bob':
-					tex = Paths.getSparrowAtlas('bob/oohscary');
-					frames = tex;
+					frames = Paths.getSparrowAtlas('bob/oohscary');
+
 					animation.addByPrefix('idle', "bob_idle", 24, false);
 					animation.addByPrefix('singUP', 'bob_UP', 24, false);
 					animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
@@ -184,35 +185,27 @@ class Character extends FlxSprite
 				flipX = true;
 			
 			case 'hellbob':
-				if (FlxG.save.data.happybob)
-				{
-					tex = Paths.getSparrowAtlas('bob/happy/hellbob_assets');
-				}
-				else
-				{
-					tex = Paths.getSparrowAtlas('bob/hellbob_assets');
-				}
-				frames = tex;
+				frames = Paths.getSparrowAtlas(FlxG.save.data.happybob ? 'bob/happy/hellbob_assets' : 'bob/hellbob_assets');
+
 				animation.addByPrefix('idle', "bobismad", 24);
 				animation.addByPrefix('singUP', 'lol', 24, false);
 				animation.addByPrefix('singDOWN', 'lol', 24, false);
 				animation.addByPrefix('singUPmiss', 'lol', 24);
 				animation.addByPrefix('singDOWNmiss', 'lol', 24);
 
-				//addOffset('idle', 0, 27);
-
 				playAnim('idle');
 
 				flipX = true;
 			case 'ron':
-				tex = Paths.getSparrowAtlas('bob/Tankman');
-				frames = tex;
+				frames = Paths.getSparrowAtlas('bob/Tankman');
+
 				animation.addByPrefix('idle', "Idle", 24);
 				animation.addByPrefix('singUP', 'Sing Up', 24, false);
 				animation.addByPrefix('singDOWN', 'Sing Down', 24, false);
 				animation.addByPrefix('singLEFT', 'Sing Left', 24, false);
 				animation.addByPrefix('singRIGHT', 'Sing Right', 24, false);
 				animation.addByPrefix('cheer', 'Ugh', 24, false);
+
 				addOffset('idle');
 				addOffset("singUP", 42, 38);
 				addOffset("singLEFT", 98, -27);
@@ -220,31 +213,33 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 40, -120);
 				addOffset("Ugh", 71, -40);
 			case 'little-man':
-					tex = Paths.getSparrowAtlas('Small_Guy');
-					frames = tex;
+					frames = Paths.getSparrowAtlas('Small_Guy');
+
 					animation.addByPrefix('idle', "idle", 24);
 					animation.addByPrefix('singUP', 'up', 24, false);
 					animation.addByPrefix('singDOWN', 'down', 24, false);
 					animation.addByPrefix('singLEFT', 'left', 24, false);
 					animation.addByPrefix('singRIGHT', 'right', 24, false);
+
 					addOffset('idle');
 					addOffset("singUP", -10, 8);
 					addOffset("singLEFT", -8, 0);
 					addOffset("singRIGHT", 0, 2);
 					addOffset("singDOWN", 0, -10);
 			case 'pizza':
-					tex = Paths.getSparrowAtlas('littleman/PizzaMan');
-					frames = tex;
+					frames = Paths.getSparrowAtlas('littleman/PizzaMan');
+
 					animation.addByPrefix('idle', "PizzasHere", 29);
 					animation.addByPrefix('fall', "PizzasHere", 29);
 					animation.addByPrefix('singUP', 'Up', 29, false);
 					animation.addByPrefix('singDOWN', 'Down', 29, false);
 					animation.addByPrefix('singLEFT', 'Left', 29, false);
 					animation.addByPrefix('singRIGHT', 'Right', 29, false);
+
 					addOffset('idle');
 			case 'tankman':
-				tex = Paths.getSparrowAtlas('Tankman');
-				frames = tex;
+				frames = Paths.getSparrowAtlas('Tankman');
+
 				animation.addByPrefix('idle', "Idle", 24);
 				animation.addByPrefix('singUP', 'Sing Up', 24, false);
 				animation.addByPrefix('singDOWN', 'Sing Down', 24, false);
@@ -254,6 +249,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('singDOWN-alt', 'Sing Down', 24, false);
 				animation.addByPrefix('singLEFT-alt', 'Sing Left', 24, false);
 				animation.addByPrefix('singRIGHT-alt', 'Sing Right', 24, false);
+
 				addOffset('idle');
 				addOffset("singUP", 42, 38);
 				addOffset("singLEFT", 98, -27);
