@@ -33,8 +33,7 @@ using StringTools;
 
 class Main extends Sprite
 {
-	var game:FlxGame;
-	var fps:FPS;
+	private var fps:FPS;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -62,8 +61,7 @@ class Main extends Sprite
 		// Run the garbage colector after the state switched...
 		FlxG.signals.postStateSwitch.add(System.gc);
 
-		game = new FlxGame(1280, 720, TitleState, 60, 60, true, false);
-		addChild(game);
+		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
 
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
