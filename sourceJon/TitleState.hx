@@ -25,9 +25,7 @@ import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 
 #if desktop
 import sys.thread.Thread;
@@ -59,7 +57,7 @@ class TitleState extends MusicBeatState
 		PlayerSettings.init();
 
 		#if windows
-		DiscordClient.initialize();
+		Discord.initialize();
 		#end
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());

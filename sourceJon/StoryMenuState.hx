@@ -14,9 +14,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 
 using StringTools;
 
@@ -71,7 +69,7 @@ class StoryMenuState extends MusicBeatState
 	{
 		#if windows
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("choosing", null);
+		Discord.changePresence("choosing", null);
 		#end
 
 		transIn = FlxTransitionableState.defaultTransIn;

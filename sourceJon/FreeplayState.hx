@@ -11,9 +11,7 @@ import flixel.util.FlxColor;
 import openfl.utils.Assets;
 
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 
 using StringTools;
 
@@ -55,7 +53,7 @@ class FreeplayState extends MusicBeatState
 
 		 #if windows
 		 // Updating Discord Rich Presence
-		 DiscordClient.changePresence("In the Menus", null);
+		 Discord.changePresence("In the Menus", null);
 		 #end
 
 		var isDebug:Bool = false;

@@ -3,7 +3,7 @@ import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 #if windows
-import Discord.DiscordClient;
+import Discord.Discord;
 import sys.thread.Thread;
 #end
 
@@ -35,7 +35,7 @@ class GameplayCustomizeState extends MusicBeatState
     public override function create() {
         #if windows
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Customizing Gameplay", null);
+		Discord.changePresence("Customizing Gameplay", null);
 		#end
 
 		Conductor.changeBPM(102);

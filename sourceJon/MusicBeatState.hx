@@ -1,8 +1,6 @@
 package;
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import openfl.Lib;

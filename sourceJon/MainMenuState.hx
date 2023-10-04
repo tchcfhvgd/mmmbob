@@ -15,9 +15,7 @@ import flixel.util.FlxColor;
 import io.newgrounds.NG;
 import lime.app.Application;
 
-#if windows
-import Discord.DiscordClient;
-#end
+
 
 using StringTools;
 
@@ -59,7 +57,7 @@ class MainMenuState extends MusicBeatState
 		}**/
 		#if windows
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		Discord.changePresence("In the Menus", null);
 		#end
 
 		if (!FlxG.sound.music.playing)
