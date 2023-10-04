@@ -172,8 +172,8 @@ class Character extends FlxSprite
 					flipX = false;
 				
 			case 'angrybob':
-				tex = Paths.getSparrowAtlas('bob/angrybob_asset');
-				frames = tex;
+				frames = Paths.getSparrowAtlas('bob/angrybob_asset');
+
 				animation.addByPrefix('idle', "bob_idle", 24, false);
 				animation.addByPrefix('singUP', 'bob_UP', 24, false);
 				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
