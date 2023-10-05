@@ -1,3 +1,5 @@
+package;
+
 class ConvertScore
 {
     public static function convertScore(noteDiff:Float):Int

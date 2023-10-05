@@ -1,3 +1,5 @@
+package;
+
 class EtternaFunctions
 {
     // erf constants
