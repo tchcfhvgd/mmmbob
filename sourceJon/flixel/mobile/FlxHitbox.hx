@@ -1,22 +1,25 @@
 package flixel.mobile;
 
-import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
+import flixel.mobile.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
+import flixel.FlxG;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
-import flixel.mobile.FlxButton;
 
 /**
  * A zone with 4 hint's (A hitbox).
  * It's really easy to customize the layout.
  *
- * @author Mihai Alexandru (M.A. Jigsaw)
+ * @author Mihai Alexandru (MAJigsaw77)
  */
 class FlxHitbox extends FlxSpriteGroup
 {
-	public var hints(default, null):Array<FlxButton>;
+	/**
+	 * The array containing the hitbox's hints (buttons).
+	 */
+	public var hints(default, null):Array<FlxButton> = [];
 
 	/**
 	 * Create the zone.
@@ -29,8 +32,6 @@ class FlxHitbox extends FlxSpriteGroup
 	public function new(ammo:UInt, perHintWidth:Int, perHintHeight:Int, colors:Array<FlxColor>):Void
 	{
 		super();
-
-		hints = new Array<FlxButton>();
 
 		if (colors == null || (colors != null && colors.length < ammo))
 			colors = [0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF];
