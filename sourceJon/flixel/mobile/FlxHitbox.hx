@@ -55,10 +55,10 @@ class FlxHitbox extends FlxSpriteGroup
 		hints.splice(0, hints.length);
 	}
 
-	private function createHint(X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF):FlxButton
+	private function createHint(x:Float, y:Float, width:Int, height:Int, color:Int = 0xFFFFFF):FlxButton
 	{
-		var hint:FlxButton = new FlxButton(X, Y);
-		hint.loadGraphic(createHintGraphic(Width, Height, Color));
+		var hint:FlxButton = new FlxButton(x, y);
+		hint.loadGraphic(createHintGraphic(width, height, color));
 		hint.solid = false;
 		hint.multiTouch = true;
 		hint.immovable = true;
@@ -80,15 +80,15 @@ class FlxHitbox extends FlxSpriteGroup
 		return hint;
 	}
 
-	private function createHintGraphic(Width:Int, Height:Int, Color:Int = 0xFFFFFF):BitmapData
+	private function createHintGraphic(width:Int, height:Int, color:Int = 0xFFFFFF):BitmapData
 	{
 		var shape:Shape = new Shape();
-		shape.graphics.beginFill(Color);
-		shape.graphics.lineStyle(10, Color, 1);
-		shape.graphics.drawRect(0, 0, Width, Height);
+		shape.graphics.beginFill(color);
+		shape.graphics.lineStyle(10, color, 1);
+		shape.graphics.drawRect(0, 0, width, height);
 		shape.graphics.endFill();
 
-		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
+		var bitmap:BitmapData = new BitmapData(width, height, true, 0);
 		bitmap.draw(shape, true);
 		return bitmap;
 	}
