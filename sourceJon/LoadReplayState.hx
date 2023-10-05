@@ -1,65 +1,64 @@
 package;
 
-import Controls.KeyboardScheme;
-import Controls.Control;
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.keyboard.FlxKey;
+import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import openfl.utils.Assets;
+import flixel.FlxG;
+import flixel.FlxSprite;
 #if sys
+import sys.FileSystem;
 import sys.io.File;
 #end
 
+typedef SongMetadata = {
+	var name:String;
+	var character:String;
+	var week:Int;
+}
+
 class LoadReplayState extends MusicBeatState
 {
-	var selector:FlxText;
 	var curSelected:Int = 0;
-
-    var songs:Array<FreeplayState.SongMetadata> = [];
-
+	var songs:Array<SongMetadata> = [];
 	var controlsStrings:Array<String> = [];
-    var actualNames:Array<String> = [];
-
-	private var grpControls:FlxTypedGroup<Alphabet>;
+	var actualNames:Array<String> = [];
+	var grpControls:FlxTypedGroup<Alphabet>;
 	var versionShit:FlxText;
 	var poggerDetails:FlxText;
-	override function create()
+
+	override function create():Void
 	{
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-        #if sys
-		controlsStrings = sys.FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
-        #end
-		trace(controlsStrings);
+		#if sys
+		controlsStrings = FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
+		#end
 
-        controlsStrings.sort(Reflect.compare);
+		controlsStrings.sort(Reflect.compare);
 
-        addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
-        addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky']);
-        addWeek(['Pico', 'Philly', 'Blammed'], 3, ['pico']);
+		final songList:Array<String> = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 
-        addWeek(['Satin-Panties', 'High', 'Milf'], 4, ['mom']);
-        addWeek(['Cocoa', 'Eggnog', 'Winter-Horrorland'], 5, ['parents-christmas', 'parents-christmas', 'monster-christmas']);
-        
-        addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
+		for (i in 0...songList.length)
+		{
+			songs.push({
+				name: songList[i].split(':')[0],
+				character: songList[i].split(':')[1],
+				week: Std.parseInt(songList[i].split(':')[2])
+			});
+		}
 
+		for (i in 0...controlsStrings.length)
+		{
+			actualNames[i] = controlsStrings[i];
 
-        for(i in 0...controlsStrings.length)
-        {
-            var string:String = controlsStrings[i];
-            actualNames[i] = string;
-			var rep:Replay = Replay.LoadReplay(string);
-            controlsStrings[i] = string.split("time")[0] + " " + (rep.replay.songDiff == 2 ? "HARD" : rep.replay.songDiff == 1 ? "EASY" : "NORMAL");
-        }
+			final rep:Replay = Replay.LoadReplay(controlsStrings[i]);
 
-        if (controlsStrings.length == 0)
-            controlsStrings.push("No Replays...");
+			controlsStrings[i] = controlsStrings[i].split("time")[0] + " " + (rep.replay.songDiff == 2 ? "HARD" : rep.replay.songDiff == 1 ? "EASY" : "NORMAL");
+		}
 
+		if (controlsStrings.length <= 0)
+			controlsStrings.push("No Replays...");
+
+		var menuBG:FlxSprite = new FlxSprite(0, 0, Paths.image('menuDesat'));
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -72,126 +71,92 @@ class LoadReplayState extends MusicBeatState
 
 		for (i in 0...controlsStrings.length)
 		{
-				var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlsStrings[i], true, false);
-				controlLabel.isMenuItem = true;
-				controlLabel.targetY = i;
-				grpControls.add(controlLabel);
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+			var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, controlsStrings[i], true, false);
+			controlLabel.isMenuItem = true;
+			controlLabel.targetY = i;
+			grpControls.add(controlLabel);
 		}
 
-
-		versionShit = new FlxText(5, FlxG.height - 34, 0, "Replay Loader (ESCAPE TO GO BACK)\nNOTICE!!!! Replays are in a beta stage, and they are probably not 100% correct. expect misses and other stuff that isn't there!", 12);
+		versionShit = new FlxText(5, FlxG.height - 34, 0,
+			"Replay Loader (ESCAPE TO GO BACK)\nNOTICE!!!! Replays are in a beta stage, and they are probably not 100% correct. expect misses and other stuff that isn't there!",
+			12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		
 		poggerDetails = new FlxText(5, 34, 0, "Replay Details - \nnone", 12);
 		poggerDetails.scrollFactor.set();
 		poggerDetails.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(poggerDetails);
 
-		changeSelection(0);
+		changeSelection();
 
 		super.create();
 	}
 
-    public function getWeekNumbFromSong(songName:String):Int
-    {
-        var week:Int = 0;
-        for (i in 0...songs.length)
-        {
-            var pog:FreeplayState.SongMetadata = songs[i];
-            if (pog.songName.toLowerCase() == songName)
-                week = pog.week;
-        }
-        return week;
-    }
+	public function getWeekNumbFromSong(name:String):Int
+	{
+		var week:Int = 0;
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
-        {
-            songs.push(new FreeplayState.SongMetadata(songName, weekNum, songCharacter));
-        }
-    
-        public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
-        {
-            if (songCharacters == null)
-                songCharacters = ['bf'];
-    
-            var num:Int = 0;
-            for (song in songs)
-            {
-                addSong(song, weekNum, songCharacters[num]);
-    
-                if (songCharacters.length != 1)
-                    num++;
-            }
-        }
-    
+		for (song in songs)
+		{
+			if (song.name.toLowerCase() == name)
+			{
+				week = song.week;
+				break;
+			}
+		}
 
-	override function update(elapsed:Float)
+		return week;
+	}
+
+	override function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 
-			if (controls.BACK)
-				FlxG.switchState(new OptionsMenu());
-			if (controls.UP_P)
-				changeSelection(-1);
-			if (controls.DOWN_P)
-				changeSelection(1);
-		
+		if (controls.UP_P)
+			changeSelection(-1);
+		else if (controls.DOWN_P)
+			changeSelection(1);
 
-			if (controls.ACCEPT && grpControls.members[curSelected].text != "No Replays...")
-			{
-                trace('loading ' + actualNames[curSelected]);
-                PlayState.rep = Replay.LoadReplay(actualNames[curSelected]);
+		if (controls.BACK)
+			FlxG.switchState(new OptionsMenu());
+		else if (controls.ACCEPT && grpControls.members[curSelected].text != "No Replays...")
+		{
+			final poop:String = Highscore.formatSong(PlayState.rep.replay.songName.toLowerCase(), PlayState.rep.replay.songDiff);
 
-                PlayState.loadRep = true;
+			PlayState.SONG = Song.loadFromJson(poop, PlayState.rep.replay.songName.toLowerCase());
+			PlayState.rep = Replay.LoadReplay(actualNames[curSelected]);
+			PlayState.loadRep = true;
+			PlayState.isStoryMode = false;
+			PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
+			PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
 
-                var poop:String = Highscore.formatSong(PlayState.rep.replay.songName.toLowerCase(), PlayState.rep.replay.songDiff);
-
-				PlayState.SONG = Song.loadFromJson(poop, PlayState.rep.replay.songName.toLowerCase());
-                PlayState.isStoryMode = false;
-                PlayState.storyDifficulty = PlayState.rep.replay.songDiff;
-                PlayState.storyWeek = getWeekNumbFromSong(PlayState.rep.replay.songName);
-                FlxG.switchState(new PlayState());
-			}
+			FlxG.switchState(new PlayState());
+		}
 	}
-
-	var isSettingControl:Bool = false;
 
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = grpControls.length - 1;
-		if (curSelected >= grpControls.length)
-			curSelected = 0;
+		curSelected = FlxMath.wrap(curSelected + change, 0, grpControls.length - 1);
 
 		var rep:Replay = Replay.LoadReplay(actualNames[curSelected]);
 
-		poggerDetails.text = "Replay Details - \nDate Created: " + rep.replay.timestamp + "\nSong: " + rep.replay.songName + "\nReplay Version: " + (rep.replay.replayGameVer != Replay.version ? "OUTDATED" : "Latest");
-
-		// selector.y = (70 * curSelected) + 30;
+		poggerDetails.text = "Replay Details - \nDate Created: "
+			+ rep.replay.timestamp
+			+ "\nSong: "
+			+ rep.replay.songName
+			+ "\nReplay Version: "
+			+ (rep.replay.replayGameVer != Replay.version ? "OUTDATED" : "Latest");
 
 		var bullShit:Int = 0;
 
-		for (item in grpControls.members)
+		for (i in 0...grpControls.members.length)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
+			grpControls.members[i].targetY = i - curSelected;
+			grpControls.members[i].alpha = grpControls.members[i].targetY == 0 ? 1 : 0.6;
 		}
 	}
 }
