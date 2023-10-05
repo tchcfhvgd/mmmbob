@@ -162,7 +162,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs.members[i].targetY = i - curSelected;
 			grpSongs.members[i].alpha = grpSongs.members[i].targetY == 0 ? 1 : 0.6;
-			iconArray[i].alpha = i == grpSongs.members[i].alpha;
+			iconArray[i].alpha = grpSongs.members[i].alpha;
 		}
 	}
 }
