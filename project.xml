@@ -33,6 +33,7 @@
 
 	<assets path="assets/fonts" />
 	<assets path="assets/preload" rename="assets" />
+	<assets path="assets/vpad" if="mobile" />
 
 	<library name="songs" preload="true" />
 	<library name="shared" preload="true" />
