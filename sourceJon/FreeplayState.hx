@@ -1,13 +1,11 @@
 package;
 
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.FlxG;
+import flixel.FlxSprite;
 
 using StringTools;
 
@@ -28,10 +26,8 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
-	private var grpSongs:FlxTypedGroup<Alphabet>;
-	private var curPlaying:Bool = false;
-
-	private var icons:Array<HealthIcon> = [];
+	var grpSongs:FlxTypedGroup<Alphabet>;
+	var icons:Array<HealthIcon> = [];
 
 	override function create()
 	{
@@ -54,6 +50,7 @@ class FreeplayState extends MusicBeatState
 		add(new FlxSprite(0, 0, Paths.image('menuBGBlue')));
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
+		add(grpSongs);
 
 		for (i in 0...songs.length)
 		{
@@ -69,8 +66,6 @@ class FreeplayState extends MusicBeatState
 			icons.push(icon);
 			add(icon);
 		}
-
-		add(grpSongs);
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -162,6 +157,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs.members[i].targetY = i - curSelected;
 			grpSongs.members[i].alpha = grpSongs.members[i].targetY == 0 ? 1 : 0.6;
+
 			icons[i].alpha = grpSongs.members[i].alpha;
 		}
 	}
