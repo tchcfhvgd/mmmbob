@@ -1,7 +1,7 @@
 name: Formatter
 on: workflow_dispatch
 jobs:
-  Jon:
+  Job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -13,14 +13,15 @@ jobs:
           haxe-version: latest
 
       - name: Installing Libraries
-        run: haxelib install formatter --quiet
+        run: |
+          haxelib --quiet install formatter
 
       - name: Formatting
-        run: haxelib run formatter --check -s ./sourceJon
+        run: haxelib run formatter -s sourceJon
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: sourceJon
-          path: ./sourceJon
+          name: Source-Files
+          path: sourceJon
           if-no-files-found: error
