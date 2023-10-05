@@ -1,7 +1,9 @@
 package;
-import flixel.*;
+
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.FlxG;
+import flixel.FlxSprite;
 
 /**
  * ...
@@ -9,36 +11,21 @@ import flixel.util.FlxTimer;
  */
 class CantRunState extends FlxState
 {
-	
-	public function new(goodEnding:Bool = true) 
-	{
-		super();
-		
-	}
-	
-	override public function create():Void 
+	override function create():Void
 	{
 		super.create();
-		var end:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('bob/cantruncantrunfartpiss', 'shared'));
-		FlxG.sound.playMusic(Paths.music("youcantrun"),1,false);
-		add(end);
+
+		FlxG.sound.playMusic(Paths.music('youcantrun'), 1, false);
+
+		add(new FlxSprite(0, 0, Paths.image('bob/cantruncantrunfartpiss', 'shared')));
+
 		FlxG.camera.fade(FlxColor.BLACK, 0.8, true);
-		
-		
-		new FlxTimer().start(24, endIt);
-		
+
+		new FlxTimer().start(24, function(e:FlxTimer)
+		{
+			trace("ENDING");
+
+			FlxG.switchState(new PlayState());
+		});
 	}
-	
-	override public function update(elapsed:Float):Void 
-	{
-		super.update(elapsed);
-		
-	}
-	
-	
-	public function endIt(e:FlxTimer=null){
-		trace("ENDING");
-		FlxG.switchState(new PlayState());
-	}
-	
 }
