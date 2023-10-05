@@ -16,11 +16,11 @@ jobs:
         run: haxelib install formatter --quiet
 
       - name: Formatting
-        run: haxelib run formatter -s sourceJon
+        run: haxelib run formatter --check -s ./sourceJon
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: Formated shit
-          path: sourceJon
+          name: sourceJon
+          path: ./sourceJon
           if-no-files-found: error
