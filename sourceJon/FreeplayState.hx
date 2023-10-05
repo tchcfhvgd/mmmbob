@@ -8,18 +8,18 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import openfl.utils.Assets;
-
-
-
 
 using StringTools;
+
+typedef SongMetadata = {
+	var name:String;
+	var character:String;
+	var week:Int;
+}
 
 class FreeplayState extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
-
-	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
 
@@ -35,66 +35,45 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
+		final songList:Array<String> = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 
-		for (i in 0...initSonglist.length)
+		for (i in 0...songList.length)
 		{
-			var data:Array<String> = initSonglist[i].split(':');
-			songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+			songs.push({
+				name: songList[i].split(':')[0],
+				character: songList[i].split(':')[1],
+				week: Std.parseInt(songList[i].split(':')[2])
+			});
 		}
 
-		/* 
-			if (FlxG.sound.music != null)
-			{
-				if (!FlxG.sound.music.playing)
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-			}
-		 */
-
-		 #if FEATURE_DISCORD
-		 // Updating Discord Rich Presence
-		 Discord.changePresence("In the Menus", null);
-		 #end
-
-		var isDebug:Bool = false;
-
-		#if debug
-		isDebug = true;
+		#if FEATURE_DISCORD
+		// Updating Discord Rich Presence
+		Discord.changePresence("In the Menus", null);
 		#end
 
-		// LOAD MUSIC
-
-		// LOAD CHARACTERS
-
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
-		add(bg);
+		add(new FlxSprite(0, 0, Paths.image('menuBGBlue')));
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
-		add(grpSongs);
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].name, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
 
-			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
+			var icon:HealthIcon = new HealthIcon(songs[i].character);
 			icon.sprTracker = songText;
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
 		}
 
+		add(grpSongs);
+
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
 
 		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
@@ -109,54 +88,7 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
-		selector = new FlxText();
-
-		selector.size = 40;
-		selector.text = ">";
-		// add(selector);
-
-		var swag:Alphabet = new Alphabet(1, 0, "swag");
-
-		// JUST DOIN THIS SHIT FOR TESTING!!!
-		/* 
-			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
-
-			var texFel:TextField = new TextField();
-			texFel.width = FlxG.width;
-			texFel.height = FlxG.height;
-			// texFel.
-			texFel.htmlText = md;
-
-			FlxG.stage.addChild(texFel);
-
-			// scoreText.textField.htmlText = md;
-
-			trace(md);
-		 */
-
 		super.create();
-	}
-
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
-	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
-	}
-
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
-	{
-		if (songCharacters == null)
-			songCharacters = ['bf'];
-
-		var num:Int = 0;
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num]);
-
-			if (songCharacters.length != 1)
-				num++;
-		}
 	}
 
 	override function update(elapsed:Float)
@@ -164,67 +96,44 @@ class FreeplayState extends MusicBeatState
 		super.update(elapsed);
 
 		if (FlxG.sound.music.volume < 0.7)
-		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.4));
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.text = 'PERSONAL BEST:$lerpScore';
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-
-		if (upP)
-		{
+		if (controls.UP_P)
 			changeSelection(-1);
-		}
-		if (downP)
-		{
+		else if (controls.DOWN_P)
 			changeSelection(1);
-		}
 
 		if (controls.LEFT_P)
 			changeDiff(-1);
-		if (controls.RIGHT_P)
+		else if (controls.RIGHT_P)
 			changeDiff(1);
 
 		if (controls.BACK)
-		{
 			FlxG.switchState(new MainMenuState());
-		}
-
-		if (accepted)
+		else if (controls.ACCEPT)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+			final poop:String = Highscore.formatSong(songs[curSelected].name.toLowerCase(), curDifficulty);
 
-			trace(poop);
-
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].name.toLowerCase());
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
 			PlayState.storyWeek = songs[curSelected].week;
-			trace('CUR WEEK' + PlayState.storyWeek);
 			FlxG.switchState(new PlayState());
 		}
 	}
 
 	function changeDiff(change:Int = 0)
 	{
-		curDifficulty += change;
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, 2);
 
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
-			curDifficulty = 0;
-
-		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-		#end
+		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
 		switch (curDifficulty)
 		{
@@ -241,53 +150,19 @@ class FreeplayState extends MusicBeatState
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
+		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
-			curSelected = 0;
-
-		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-		#end
+		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
 		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0);
 		#end
 
-		var bullShit:Int = 0;
-
-		for (i in 0...iconArray.length)
+		for (i in 0...grpSongs.members.length)
 		{
-			iconArray[i].alpha = 0.6;
+			grpSongs.members[i].targetY = i - curSelected;
+			grpSongs.members[i].alpha = grpSongs.members[i].targetY == 0 ? 1 : 0.6;
+			iconArray[i].alpha = i == grpSongs.members[i].alpha;
 		}
-
-		iconArray[curSelected].alpha = 1;
-
-		for (item in grpSongs.members)
-		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-
-			if (item.targetY == 0)
-				item.alpha = 1;
-		}
-	}
-}
-
-class SongMetadata
-{
-	public var songName:String = "";
-	public var week:Int = 0;
-	public var songCharacter:String = "";
-
-	public function new(song:String, week:Int, songCharacter:String)
-	{
-		this.songName = song;
-		this.week = week;
-		this.songCharacter = songCharacter;
 	}
 }
