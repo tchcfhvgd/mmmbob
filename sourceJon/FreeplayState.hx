@@ -31,7 +31,7 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
-	private var iconArray:Array<HealthIcon> = [];
+	private var icons:Array<HealthIcon> = [];
 
 	override function create()
 	{
@@ -66,7 +66,7 @@ class FreeplayState extends MusicBeatState
 			icon.sprTracker = songText;
 
 			// using a FlxGroup is too much fuss!
-			iconArray.push(icon);
+			icons.push(icon);
 			add(icon);
 		}
 
@@ -162,7 +162,7 @@ class FreeplayState extends MusicBeatState
 		{
 			grpSongs.members[i].targetY = i - curSelected;
 			grpSongs.members[i].alpha = grpSongs.members[i].targetY == 0 ? 1 : 0.6;
-			iconArray[i].alpha = grpSongs.members[i].alpha;
+			icons[i].alpha = grpSongs.members[i].alpha;
 		}
 	}
 }
