@@ -24,7 +24,7 @@ class LoadReplayState extends MusicBeatState
 	override function create():Void
 	{
 		#if sys
-		controlsStrings = FileSystem.readDirectory(Sys.getCwd() + "/assets/replays/");
+		controlsStrings = FileSystem.readDirectory('assets/replays');
 		#end
 
 		controlsStrings.sort(Reflect.compare);
