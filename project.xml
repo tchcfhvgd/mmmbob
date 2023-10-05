@@ -45,8 +45,8 @@
 	<!--Defines-->
 
 	<section if="cpp">
-		<define name="DISCORD" if="desktop" />
-		<define name="VIDEOS" if="desktop || android" />
+		<define name="FEATURE_DISCORD" if="desktop" />
+		<define name="FEATURE_VIDEOS" if="desktop || android" />
 	</section>
 
 	<!--Libraries-->
@@ -56,8 +56,8 @@
 	<haxelib name="flixel-ui" />
 
 	<haxelib name="hscript" />
-	<haxelib name="hxdiscord_rpc" if="DISCORD" />
-	<haxelib name="hxvlc" if="VIDEOS" />
+	<haxelib name="hxdiscord_rpc" if="FEATURE_DISCORD" />
+	<haxelib name="hxvlc" if="FEATURE_VIDEOS" />
 
 	<haxelib name="extension-androidtools" if="android" />
 
@@ -73,7 +73,7 @@
 		<haxedef name="HXCPP_STACK_TRACE" />
 	</section>
 
-	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="DISCORD" />
+	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="FEATURE_DISCORD" />
 
 	<haxeflag name="-dce" value="full" />
 

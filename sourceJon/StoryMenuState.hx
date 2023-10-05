@@ -64,7 +64,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
-		#if windows
+		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		Discord.changePresence("choosing", null);
 		#end

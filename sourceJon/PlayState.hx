@@ -70,7 +70,7 @@ class PlayState extends MusicBeatState
 
 	var songLength:Float = 0;
 
-	#if windows
+	#if FEATURE_DISCORD
 	// Discord RPC variables
 	var storyDifficultyText:String = "";
 	var iconRPC:String = "";
@@ -203,7 +203,7 @@ class PlayState extends MusicBeatState
 		repPresses = 0;
 		repReleases = 0;
 
-		#if windows
+		#if FEATURE_DISCORD
 		// Making difficulty text for Discord Rich Presence.
 		switch (storyDifficulty)
 		{
@@ -1218,7 +1218,7 @@ class PlayState extends MusicBeatState
 				allowedToHeadbang = false;
 		}
 
-		#if windows
+		#if FEATURE_DISCORD
 		// Updating Discord Rich Presence (with Time Left)
 		Discord.changePresence(detailsText
 			+ " "
@@ -1509,7 +1509,7 @@ class PlayState extends MusicBeatState
 				vocals.pause();
 			}
 
-			#if windows
+			#if FEATURE_DISCORD
 			Discord.changePresence("PAUSED on "
 				+ SONG.song
 				+ " ("
@@ -1543,7 +1543,7 @@ class PlayState extends MusicBeatState
 				startTimer.active = true;
 			paused = false;
 
-			#if windows
+			#if FEATURE_DISCORD
 			if (startTimer.finished)
 			{
 				Discord.changePresence(detailsText
@@ -1581,7 +1581,7 @@ class PlayState extends MusicBeatState
 		vocals.time = Conductor.songPosition;
 		vocals.play();
 
-		#if windows
+		#if FEATURE_DISCORD
 		Discord.changePresence(detailsText
 			+ " "
 			+ SONG.song
@@ -1790,7 +1790,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			#if windows
+			#if FEATURE_DISCORD
 			Discord.changePresence("Chart Editor", null, null, true);
 			#end
 			if (SONG.song.toLowerCase() == 'run')
@@ -2053,7 +2053,7 @@ class PlayState extends MusicBeatState
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
-			#if windows
+			#if FEATURE_DISCORD
 			// Game Over doesn't get his own variable because it's only used here
 			Discord.changePresence("GAME OVER -- "
 				+ SONG.song
@@ -2224,7 +2224,7 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					trace(curSong);
-					#if windows
+					#if FEATURE_DISCORD
 					Discord.changePresence("HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP",
 						null, null, true);
 					#end
@@ -3255,7 +3255,7 @@ class PlayState extends MusicBeatState
 		// yes this updates every step.
 		// yes this is bad
 		// but i'm doing it to update misses and accuracy
-		#if windows
+		#if FEATURE_DISCORD
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 

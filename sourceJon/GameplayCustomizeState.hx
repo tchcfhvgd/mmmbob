@@ -4,11 +4,6 @@ import flixel.math.FlxMath;
 import flixel.FlxCamera;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
-#if desktop
-import Discord.Discord;
-import sys.thread.Thread;
-#end
-
 import flixel.group.FlxGroup.FlxTypedGroup;
 import openfl.ui.Keyboard;
 import flixel.FlxSprite;
@@ -35,7 +30,7 @@ class GameplayCustomizeState extends MusicBeatState
     private var camHUD:FlxCamera;
     
     public override function create() {
-        #if desktop
+        #if FEATURE_DISCORD
 		// Updating Discord Rich Presence
 		Discord.changePresence("Customizing Gameplay", null);
 		#end

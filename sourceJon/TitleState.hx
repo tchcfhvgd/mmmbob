@@ -24,12 +24,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
 
-
-
-#if desktop
-import sys.thread.Thread;
-#end
-
 using StringTools;
 
 class TitleState extends MusicBeatState
@@ -55,7 +49,7 @@ class TitleState extends MusicBeatState
 		
 		PlayerSettings.init();
 
-		#if desktop
+		#if FEATURE_DISCORD
 		Discord.initialize();
 		#end
 
