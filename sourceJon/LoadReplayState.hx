@@ -11,16 +11,10 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-typedef SongMetadata = {
-	var name:String;
-	var character:String;
-	var week:Int;
-}
-
 class LoadReplayState extends MusicBeatState
 {
 	var curSelected:Int = 0;
-	var songs:Array<SongMetadata> = [];
+	var songs:Array<FreeplayState.SongMetadata> = [];
 	var controlsStrings:Array<String> = [];
 	var actualNames:Array<String> = [];
 	var grpControls:FlxTypedGroup<Alphabet>;
