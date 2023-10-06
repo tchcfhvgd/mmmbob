@@ -1,6 +1,5 @@
 package;
 
-
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import openfl.Lib;
@@ -10,6 +9,13 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
+#if mobile
+import flixel.input.actions.FlxActionInput;
+import flixel.mobile.FlxHitbox;
+import flixel.mobile.FlxVirtualPad;
+import flixel.util.FlxDestroyUtil;
+import flixel.FlxCamera;
+#end
 
 class MusicBeatState extends FlxUIState
 {
@@ -23,7 +29,83 @@ class MusicBeatState extends FlxUIState
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
-	override function create()
+	#if mobile
+	var hitbox:FlxHitbox;
+	var virtualPad:FlxVirtualPad;
+
+	var trackedInputsHitbox:Array<FlxActionInput> = [];
+	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
+
+	public function addVirtualPad(dPad:FlxDPadMode, action:FlxActionMode, ?visible = true):Void
+	{
+		if (virtualPad != null)
+			removeVirtualPad();
+
+		virtualPad = new FlxVirtualPad(dPad, action);
+		virtualPad.visible = visible;
+		add(virtualPad);
+
+		controls.setVPad(virtualPad, dPad, action);
+		trackedInputsVirtualPad = controls.trackedInputs;
+		controls.trackedInputs = [];
+	}
+
+	public function addVirtualPadCamera(defaultDrawTarget:Bool = true):Void
+	{
+		if (virtualPad != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			FlxG.cameras.add(camControls, defaultDrawTarget);
+			camControls.bgColor.alpha = 0;
+			virtualPad.cameras = [camControls];
+		}
+	}
+
+	public function removeVirtualPad():Void
+	{
+		if (trackedInputsVirtualPad.length > 0)
+			controls.removeVControlsInput(trackedInputsVirtualPad);
+
+		if (virtualPad != null)
+			remove(virtualPad);
+	}
+
+	public function addHitbox(?visible = true):Void
+	{
+		if (hitbox != null)
+			removeHitbox();
+
+		hitbox = new FlxHitbox();
+		hitbox.visible = visible;
+		add(hitbox);
+
+		controls.setHitbox(hitbox);
+		trackedInputsHitbox = controls.trackedInputs;
+		controls.trackedInputs = [];
+	}
+
+	public function addHitboxCamera(DefaultDrawTarget:Bool = true):Void
+	{
+		if (hitbox != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
+			camControls.bgColor.alpha = 0;
+			hitbox.cameras = [camControls];
+		}
+	}
+
+	public function removeHitbox():Void
+	{
+		if (trackedInputsHitbox.length > 0)
+			controls.removeVControlsInput(trackedInputsHitbox);
+
+		if (hitbox != null)
+			remove(hitbox);
+	}
+	#end
+
+	override function create():Void
 	{
 		cast(Lib.current.getChildAt(0), Main).setFPSCap(FlxG.save.data.fpsCap);
 
@@ -33,8 +115,7 @@ class MusicBeatState extends FlxUIState
 		super.create();
 	}
 
-
-	var array:Array<FlxColor> = [
+	final colors:Array<FlxColor> = [
 		FlxColor.fromRGB(148, 0, 211),
 		FlxColor.fromRGB(75, 0, 130),
 		FlxColor.fromRGB(0, 0, 255),
@@ -44,12 +125,11 @@ class MusicBeatState extends FlxUIState
 		FlxColor.fromRGB(255, 0 , 0)
 	];
 
-	var skippedFrames = 0;
+	var skippedFrames:Int = 0;
 
-	override function update(elapsed:Float)
+	override function update(elapsed:Float):Void
 	{
-		//everyStep();
-		var oldStep:Int = curStep;
+		final oldStep:Int = curStep;
 
 		updateCurStep();
 		updateBeat();
@@ -59,9 +139,10 @@ class MusicBeatState extends FlxUIState
 
 		if (FlxG.save.data.fpsRain && skippedFrames >= 6)
 			{
-				if (currentColor >= array.length)
+				if (currentColor >= colors.length)
 					currentColor = 0;
-				cast(Lib.current.getChildAt(0), Main).changeFPSColor(array[currentColor]);
+
+				cast(Lib.current.getChildAt(0), Main).changeFPSColor(colors[currentColor]);
 				currentColor++;
 				skippedFrames = 0;
 			}
@@ -74,13 +155,34 @@ class MusicBeatState extends FlxUIState
 		super.update(elapsed);
 	}
 
+	override function destroy():Void
+	{
+		#if mobile
+		if (trackedInputsHitbox.length > 0)
+			controls.removeVControlsInput(trackedInputsHitbox);
+
+		if (trackedInputsVirtualPad.length > 0)
+			controls.removeVControlsInput(trackedInputsVirtualPad);
+		#end
+
+		super.destroy();
+
+		#if mobile
+		if (virtualPad != null)
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+
+		if (hitbox != null)
+			hitbox = FlxDestroyUtil.destroy(hitbox);
+		#end
+	}
+
 	private function updateBeat():Void
 	{
 		lastBeat = curStep;
 		curBeat = Math.floor(curStep / 4);
 	}
 
-	public static var currentColor = 0;
+	var currentColor:Int = 0;
 
 	private function updateCurStep():Void
 	{
@@ -89,6 +191,7 @@ class MusicBeatState extends FlxUIState
 			songTime: 0,
 			bpm: 0
 		}
+
 		for (i in 0...Conductor.bpmChangeMap.length)
 		{
 			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
@@ -100,13 +203,12 @@ class MusicBeatState extends FlxUIState
 
 	public function stepHit():Void
 	{
-
 		if (curStep % 4 == 0)
 			beatHit();
 	}
 
 	public function beatHit():Void
 	{
-		//do literally nothing dumbass
+		// do literally nothing dumbass
 	}
 }
