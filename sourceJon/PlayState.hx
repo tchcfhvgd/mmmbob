@@ -569,7 +569,7 @@ class PlayState extends MusicBeatState
 
 		add(camFollow);
 
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
@@ -754,7 +754,7 @@ class PlayState extends MusicBeatState
 		boyfriend.visible = false;
 		gf.visible = false;
 		dad.visible = false;
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 		// camFollow.y = boyfriend.getMidpoint().y;
 		camFollow.x = boyfriend.getMidpoint().x;
 		FlxG.camera.fade(FlxColor.BLACK, 1, true, function()
@@ -774,7 +774,7 @@ class PlayState extends MusicBeatState
 
 	function RonIntro2():Void
 	{
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 		FlxG.sound.music.fadeIn(1, 0.5, 0);
 		// camFollow.y = boyfriend.getMidpoint().y;
 		camFollow.x = dad.getMidpoint().x;
@@ -985,7 +985,7 @@ class PlayState extends MusicBeatState
 							camFollow.y = bobCut.getMidpoint().y;
 							camFollow.x = bobCut.getMidpoint().x;
 							// FlxG.camera.focusOn(camFollow.getPosition());
-							FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+							FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 							FlxTween.tween(FlxG.camera, {zoom: 1.2}, 0.5);
 							FlxG.sound.play(Paths.sound('OhScary'));
 							bobCut.animation.play('start');
@@ -3368,13 +3368,13 @@ class PlayState extends MusicBeatState
 			}
 			else if (curBeat == 215)
 			{
-				FlxG.camera.follow(dad, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+				FlxG.camera.follow(dad, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 				FlxTween.tween(FlxG.camera, {zoom: 1.5}, 0.4, {ease: FlxEase.expoOut,});
 				dad.playAnim('cheer', true);
 			}
 			else
 			{
-				FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast(Lib.current.getChildAt(0), Main)).getFPS()));
+				FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
 			}
 		}
 		if (curBeat % gfSpeed == 0 && curSong == 'run' && !FlxG.save.data.shakingscreen)

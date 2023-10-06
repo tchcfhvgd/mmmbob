@@ -324,7 +324,7 @@ class FPSOption extends Option
 	public override function press():Bool
 	{
 		FlxG.save.data.fps = !FlxG.save.data.fps;
-		(cast (Lib.current.getChildAt(0), Main)).toggleFPS(FlxG.save.data.fps);
+		cast(Lib.current.getChildAt(0), Main).toggleFPS(FlxG.save.data.fps);
 		display = updateDisplay();
 		return true;
 	}
@@ -358,7 +358,7 @@ class FPSCapOption extends Option
 		if (FlxG.save.data.fpsCap > 290)
 			return false;
 		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap + 10;
-		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+		cast(Lib.current.getChildAt(0), Main).setFPSCap(FlxG.save.data.fpsCap);
 
 		OptionsMenu.versionShit.text = "Current FPS Cap: " + FlxG.save.data.fpsCap + " - Description - " + description;
 
@@ -369,7 +369,7 @@ class FPSCapOption extends Option
 		if (FlxG.save.data.fpsCap < 60)
 			return false;
 		FlxG.save.data.fpsCap = FlxG.save.data.fpsCap - 10;
-		(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
+		cast(Lib.current.getChildAt(0), Main).setFPSCap(FlxG.save.data.fpsCap);
 
 		OptionsMenu.versionShit.text = "Current FPS Cap: " + FlxG.save.data.fpsCap + " - Description - " + description;
 
@@ -437,7 +437,7 @@ class RainbowFPSOption extends Option
 	public override function press():Bool
 	{
 		FlxG.save.data.fpsRain = !FlxG.save.data.fpsRain;
-		(cast (Lib.current.getChildAt(0), Main)).changeFPSColor(FlxColor.WHITE);
+		cast(Lib.current.getChildAt(0), Main).changeFPSColor(FlxColor.WHITE);
 		display = updateDisplay();
 		return true;
 	}
