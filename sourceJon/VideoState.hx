@@ -4,14 +4,19 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
+#if VIDEOS
 import hxvlc.flixel.FlxVideo;
+#end
 
 class VideoState extends MusicBeatState
 {
 	var leSource:String;
 	var transClass:FlxState;
 	var fuckingVolume:Float = 1;
+
+	#if VIDEOS
 	var video:FlxVideo;
+	#end
 
 	public function new(source:String, toTrans:FlxState):Void
 	{
@@ -33,6 +38,7 @@ class VideoState extends MusicBeatState
 
 		super.create();
 
+		#if VIDEOS
 		video = new FlxVideo();
 		video.onEndReached.add(function()
 		{
@@ -43,13 +49,26 @@ class VideoState extends MusicBeatState
 			FlxG.switchState(transClass);
 		});
 		video.play(leSource);
+		#else
+		FlxG.autoPause = true;
+		FlxG.sound.music.volume = fuckingVolume;
+		FlxG.switchState(transClass);
+		#end
 	}
 	
+	#if VIDEOS
 	override function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
+
+		#if mobile
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed && video.isPlaying)
+				video.onEndReached.dispatch();
+		#end
+
 		if (controls.ACCEPT && video.isPlaying)
 			video.onEndReached.dispatch();
 	}
+	#end
 }
