@@ -143,17 +143,19 @@ class OptionsMenu extends MusicBeatState
 					{
 						if (controls.RIGHT_P)
 							currentSelectedCat.getOptions()[curSelected].right();
-						elsd if (controls.LEFT_P)
+						else if (controls.LEFT_P)
 							currentSelectedCat.getOptions()[curSelected].left();
 					}
 				}
 				else
 				{
 					if (FlxG.keys.pressed.SHIFT #if mobile || virtualPad.buttonC.pressed #end)
+					{
 						if (controls.RIGHT_P)
 							FlxG.save.data.offset += 1;
 						else if (controls.LEFT_P)
 							FlxG.save.data.offset -= 1;
+					}
 					else if (controls.RIGHT_P)
 							FlxG.save.data.offset += 0.1;
 					else if (controls.LEFT_P)
