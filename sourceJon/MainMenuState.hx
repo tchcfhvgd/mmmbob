@@ -8,13 +8,12 @@ import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.math.FlxMath;
 import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
-
-
 
 using StringTools;
 
@@ -312,12 +311,8 @@ class MainMenuState extends MusicBeatState
 					str.scale.x = str.scale.x + 0.1;
 				}
 			}
-		curSelected += huh;
 
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
+		curSelected = FlxMath.wrap(curSelected + huh, 0, menuItems.length - 1);
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
