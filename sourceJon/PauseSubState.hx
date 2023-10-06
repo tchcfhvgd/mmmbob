@@ -75,6 +75,11 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		#if mobile
+		addVirtualPad(UP_DOWN, A);
+		addVirtualPadCamera(false);
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -84,22 +89,14 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
-
-		if (upP)
-		{
+		if (controls.UP_P)
 			changeSelection(-1);
-		}
-		if (downP)
-		{
+		else if (controls.DOWN_P)
 			changeSelection(1);
-		}
 
-		if (accepted)
+		if (controls.ACCEPT)
 		{
-			var daSelected:String = menuItems[curSelected];
+			final daSelected:String = menuItems[curSelected];
 
 			switch (daSelected)
 			{
@@ -117,12 +114,6 @@ class PauseSubState extends MusicBeatSubstate
 					else
 						FlxG.switchState(new MainMenuState());
 			}
-		}
-
-		if (FlxG.keys.justPressed.J)
-		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
 		}
 	}
 

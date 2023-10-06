@@ -30,11 +30,7 @@ class MainMenuState extends MusicBeatState
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
-	#if !switch
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
-	#else
-	var optionShit:Array<String> = ['story mode', 'freeplay'];
-	#end
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
@@ -134,6 +130,10 @@ class MainMenuState extends MusicBeatState
 			controls.setKeyboardScheme(KeyboardScheme.Duo(true), true);
 
 		changeItem();
+
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 
 		super.create();
 	}

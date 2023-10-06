@@ -86,6 +86,10 @@ class OptionsMenu extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B_C);
+		#end
+
 		super.create();
 	}
 
@@ -118,6 +122,7 @@ class OptionsMenu extends MusicBeatState
 					}
 				curSelected = 0;
 			}
+
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)
@@ -127,44 +132,43 @@ class OptionsMenu extends MusicBeatState
 			{
 				if (currentSelectedCat.getOptions()[curSelected].getAccept())
 				{
-					if (FlxG.keys.pressed.SHIFT)
+					if (FlxG.keys.pressed.SHIFT #if mobile || virtualPad.buttonC.pressed #end)
 						{
-							if (FlxG.keys.pressed.RIGHT)
+							if (controls.RIGHT_P)
 								currentSelectedCat.getOptions()[curSelected].right();
-							if (FlxG.keys.pressed.LEFT)
+							else if (controls.LEFT_P)
 								currentSelectedCat.getOptions()[curSelected].left();
 						}
 					else
 					{
-						if (FlxG.keys.justPressed.RIGHT)
+						if (controls.RIGHT_P)
 							currentSelectedCat.getOptions()[curSelected].right();
-						if (FlxG.keys.justPressed.LEFT)
+						elsd if (controls.LEFT_P)
 							currentSelectedCat.getOptions()[curSelected].left();
 					}
 				}
 				else
 				{
-					if (FlxG.keys.pressed.SHIFT)
-						if (FlxG.keys.pressed.RIGHT)
+					if (FlxG.keys.pressed.SHIFT #if mobile || virtualPad.buttonC.pressed #end)
+						if (controls.RIGHT_P)
 							FlxG.save.data.offset += 1;
-						else if (FlxG.keys.pressed.LEFT)
+						else if (controls.LEFT_P)
 							FlxG.save.data.offset -= 1;
 					else if (controls.RIGHT_P)
 							FlxG.save.data.offset += 0.1;
 					else if (controls.LEFT_P)
 						FlxG.save.data.offset -= 0.1;
-					
+	
 					versionShit.text = "Offset (Left, Right, Shift to go faster): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 				}
 			}
 			else
 			{
-				if (FlxG.keys.pressed.RIGHT)
-					FlxG.save.data.offset+= 0.01;
+				if (controls.RIGHT_P)
+					FlxG.save.data.offset += 0.1;
+				else if (controls.LEFT_P)
+					FlxG.save.data.offset -= 0.1;
 
-				if (FlxG.keys.pressed.LEFT)
-					FlxG.save.data.offset-= 0.01;
-				
 				versionShit.text = "Offset (Left, Right, Shift to go faster): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 			}
 		
