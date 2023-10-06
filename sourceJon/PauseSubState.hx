@@ -8,10 +8,14 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSound;
+import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+#if (target.threaded)
+import sys.thread.Thread;
+#end
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -26,11 +30,22 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		super();
 
+		#if (target.threaded)
+		Thread.create(function()
+		{
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic.volume = 0;
+			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+
+			FlxG.sound.list.add(pauseMusic);
+		}
+		#else
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
 		FlxG.sound.list.add(pauseMusic);
+		#end
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -82,9 +97,9 @@ class PauseSubState extends MusicBeatSubstate
 		#end
 	}
 
-	override function update(elapsed:Float)
+	override function update(elapsed:Float):Void
 	{
-		if (pauseMusic.volume < 0.5)
+		if (pauseMusic != null && pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
 		super.update(elapsed);
@@ -106,6 +121,7 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.resetState();
 				case "Exit to menu":
 					PlayState.loadRep = false;
+
 					if (PlayState.offsetTesting)
 					{
 						PlayState.offsetTesting = false;
@@ -117,37 +133,22 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 
-	override function destroy()
+	override function destroy():Void
 	{
-		pauseMusic.destroy();
+		if (pauseMusic != null)
+			pauseMusic.destroy();
 
 		super.destroy();
 	}
 
 	function changeSelection(change:Int = 0):Void
 	{
-		curSelected += change;
+		curSelected = FlxMath.wrap(curSelected + change, 0, menuItems.length - 1);
 
-		if (curSelected < 0)
-			curSelected = menuItems.length - 1;
-		if (curSelected >= menuItems.length)
-			curSelected = 0;
-
-		var bullShit:Int = 0;
-
-		for (item in grpMenuShit.members)
+		for (i in 0...grpMenuShit.members.length)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
-				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
-			}
+			grpMenuShit.members[i].targetY = bullShit - curSelected;
+			grpMenuShit.members[i].alpha = grpMenuShit.members[i].targetY == 0 ? 1 : 0.6;
 		}
 	}
 }
