@@ -137,7 +137,7 @@ class Character extends FlxSprite
 			case 'glitched-bob':
 				frames = Paths.getSparrowAtlas('bob/ScaryBobAaaaah');
 
-				animation.addByPrefix('idle', "idle???-", 24, false);
+				animation.addByPrefix('idle', 'idle???', 24, false);
 				animation.addByPrefix('singUP', 'up', 24, false);
 				animation.addByPrefix('singDOWN', 'down', 24, false);
 				animation.addByPrefix('singLEFT', 'left', 24, false);
