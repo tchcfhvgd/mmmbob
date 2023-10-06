@@ -4,6 +4,7 @@ import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
@@ -28,8 +29,9 @@ class FreeplayState extends MusicBeatState
 
 	var grpSongs:FlxTypedGroup<Alphabet>;
 	var icons:Array<HealthIcon> = [];
+	var waitTimer:FlxTimer;
 
-	override function create()
+	override function create():Void
 	{
 		final songList:Array<String> = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 
@@ -79,6 +81,8 @@ class FreeplayState extends MusicBeatState
 		add(diffText);
 
 		add(scoreText);
+
+		waitTimer = new FlxTimer();
 
 		changeSelection();
 		changeDiff();
@@ -147,15 +151,15 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
+		waitTimer.cancel();
+
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		curSelected = FlxMath.wrap(curSelected + change, 0, songs.length - 1);
 
 		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
-		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0);
-		#end
+		waitTimer.start(1, function(tmr:FlxTimer) -> FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0));
 
 		for (i in 0...grpSongs.members.length)
 		{
