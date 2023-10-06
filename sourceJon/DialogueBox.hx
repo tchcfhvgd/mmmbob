@@ -236,7 +236,15 @@ class DialogueBox extends FlxSpriteGroup {
 			dialogueStarted = true;
 		}
 
-		if (FlxG.keys.justPressed.ANY && dialogueStarted == true) {
+		#if mobile
+		var justPressed:Bool = false;
+
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				justPressed = true;
+		#end
+
+		if ((FlxG.keys.justPressed.ANY #if mobile || justPressed #end) && dialogueStarted == true) {
 			if (caniskip == true) {
 				FlxG.sound.play(Paths.sound('clickText'), 0.8);
 
