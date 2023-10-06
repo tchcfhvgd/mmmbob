@@ -676,6 +676,11 @@ class PlayState extends MusicBeatState
 		if (loadRep)
 			replayTxt.cameras = [camHUD];
 
+		#if mobile
+		addHitbox(false);
+		addHitboxCamera();
+		#end
+
 		startingSong = true;
 
 		if (isStoryMode)
@@ -1161,6 +1166,10 @@ class PlayState extends MusicBeatState
 	function startSong():Void
 	{
 		startingSong = false;
+
+		#if mobile
+		hitbox.visible = true;
+		#end
 
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
@@ -2196,9 +2205,14 @@ class PlayState extends MusicBeatState
 		if (!loadRep)
 			rep.SaveReplay();
 
+		#if mobile
+		hitbox.visible = false;
+		#end
+
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
+
 		if (SONG.validScore)
 		{
 			#if !switch
