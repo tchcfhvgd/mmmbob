@@ -324,7 +324,7 @@ class Controls extends FlxActionSet
 		}
 	}
 
-	public function removeVPadInput(tInputs:Array<FlxActionInput>):Void
+	public function removeVControlsInput(tInputs:Array<FlxActionInput>):Void
 	{
 		for (action in digitalActions)
 		{
