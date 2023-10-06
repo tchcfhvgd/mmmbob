@@ -104,6 +104,9 @@ class GameplayCustomizeState extends MusicBeatState
 
         FlxG.mouse.visible = true;
 
+		#if mobile
+		addVirtualPad(NONE, B);
+		#end
     }
 
     override function update(elapsed:Float) {
