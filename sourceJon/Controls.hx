@@ -299,6 +299,10 @@ class Controls extends FlxActionSet
 			case LEFT_RIGHT:
 				inline forEachBound(Control.LEFT, (action, state) -> addButton(action, vPad.buttonLeft, state));
 				inline forEachBound(Control.RIGHT, (action, state) -> addButton(action, vPad.buttonRight, state));
+			case UP_LEFT_RIGHT:
+				inline forEachBound(Control.UP, (action, state) -> addButton(action, vPad.buttonUp, state));
+				inline forEachBound(Control.LEFT, (action, state) -> addButton(action, vPad.buttonLeft, state));
+				inline forEachBound(Control.RIGHT, (action, state) -> addButton(action, vPad.buttonRight, state));
 			case LEFT_FULL | RIGHT_FULL:
 				inline forEachBound(Control.UP, (action, state) -> addButton(action, vPad.buttonUp, state));
 				inline forEachBound(Control.DOWN, (action, state) -> addButton(action, vPad.buttonDown, state));
@@ -324,13 +328,15 @@ class Controls extends FlxActionSet
 	{
 		for (action in digitalActions)
 		{
-			var i = action.inputs.length;
+			var i:Int = action.inputs.length;
+
 			while (i-- > 0)
 			{
-				var x = tInputs.length;
-				while (x-- > 0)
+				var j:Int = tInputs.length;
+
+				while (j-- > 0)
 				{
-					if (tInputs[x] == action.inputs[i])
+					if (tInputs[j] == action.inputs[i])
 						action.remove(action.inputs[i]);
 				}
 			}
