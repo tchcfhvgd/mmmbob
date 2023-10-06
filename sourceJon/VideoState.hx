@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
-#if VIDEOS
+#if FEATURE_VIDEOS
 import hxvlc.flixel.FlxVideo;
 #end
 
@@ -14,7 +14,7 @@ class VideoState extends MusicBeatState
 	var transClass:FlxState;
 	var fuckingVolume:Float = 1;
 
-	#if VIDEOS
+	#if FEATURE_VIDEOS
 	var video:FlxVideo;
 	#end
 
@@ -38,7 +38,7 @@ class VideoState extends MusicBeatState
 
 		super.create();
 
-		#if VIDEOS
+		#if FEATURE_VIDEOS
 		video = new FlxVideo();
 		video.onEndReached.add(function()
 		{
@@ -56,7 +56,7 @@ class VideoState extends MusicBeatState
 		#end
 	}
 	
-	#if VIDEOS
+	#if FEATURE_VIDEOS
 	override function update(elapsed:Float):Void
 	{
 		super.update(elapsed);

@@ -1,5 +1,6 @@
 package;
 
+#if FEATURE_DISCORD
 import hxdiscord_rpc.Discord as RichPresence;
 import hxdiscord_rpc.Types;
 import openfl.Lib;
@@ -20,7 +21,7 @@ class Discord
 		{
 			while (true)
 			{
-				#if DISCORD_DISABLE_IO_THREAD
+				#if FEATURE_DISCORD_DISABLE_IO_THREAD
 				RichPresence.UpdateConnection();
 				#end
 				RichPresence.RunCallbacks();
@@ -68,3 +69,4 @@ class Discord
 		trace('Error! $errorCode : ${cast (message, String)}');
 	}
 }
+#end
