@@ -147,7 +147,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		for (i in 0...grpMenuShit.members.length)
 		{
-			grpMenuShit.members[i].targetY = bullShit - curSelected;
+			grpMenuShit.members[i].targetY = i - curSelected;
 			grpMenuShit.members[i].alpha = grpMenuShit.members[i].targetY == 0 ? 1 : 0.6;
 		}
 	}
