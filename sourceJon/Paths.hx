@@ -7,7 +7,7 @@ import openfl.utils.Assets;
 
 class Paths
 {
-	static function getPath(file:String, type:AssetType, library:Null<String>):String
+	private static function getPath(file:String, type:AssetType, library:Null<String>):String
 	{
 		if (library != null)
 			return getLibraryPath(file, library);
@@ -19,17 +19,17 @@ class Paths
 		return getPreloadPath(file);
 	}
 
-	static public function getLibraryPath(file:String, library = "preload"):String
+	private inline static function getLibraryPath(file:String, library = "preload"):String
 	{
-		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
+		return (library == "preload" || library == "default") ? getPreloadPath(file) : getLibraryPathForce(file, library);
 	}
 
-	inline static function getLibraryPathForce(file:String, library:String):String
+	private inline static function getLibraryPathForce(file:String, library:String):String
 	{
 		return '$library:assets/$library/$file';
 	}
 
-	inline static function getPreloadPath(file:String):String
+	private inline static function getPreloadPath(file:String):String
 	{
 		return 'assets/$file';
 	}
@@ -54,7 +54,7 @@ class Paths
 		return getPath('data/$key.json', TEXT, library);
 	}
 
-	static public function sound(key:String, ?library:String):String
+	inline static public function sound(key:String, ?library:String):String
 	{
 		return getPath('sounds/$key.ogg', SOUND, library);
 	}
@@ -89,7 +89,7 @@ class Paths
 		return getPreloadPath('videos/$key.webm');
 	}
 
-	inline static public function font(key:String):String
+	static public function font(key:String):String
 	{
 		final path:String = getPreloadPath('fonts/$key');
 
