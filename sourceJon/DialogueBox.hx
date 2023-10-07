@@ -216,7 +216,7 @@ class DialogueBox extends FlxSpriteGroup
 		add(dropText);
 
 		swagDialogue = new FlxTypeText(240, 436, Std.int(FlxG.width * 0.6), "", 32);
-		swagDialogue.font = 'Pixel Arial 11 Bold';
+		swagDialogue.font = Paths.font("pixel.otf");
 		swagDialogue.color = 0xFF3F2021;
 		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
 		add(swagDialogue);
