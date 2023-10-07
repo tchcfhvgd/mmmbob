@@ -94,13 +94,6 @@ class OptionsMenu extends MusicBeatState
 	}
 
 	var isCat:Bool = false;
-	
-	public static function truncateFloat( number : Float, precision : Int): Float {
-		var num = number;
-		num = num * Math.pow(10, precision);
-		num = Math.round( num ) / Math.pow(10, precision);
-		return num;
-		}
 
 	override function update(elapsed:Float)
 	{
@@ -112,20 +105,22 @@ class OptionsMenu extends MusicBeatState
 			{
 				isCat = false;
 				grpControls.clear();
+
 				for (i in 0...options.length)
-					{
-						var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
-						controlLabel.isMenuItem = true;
-						controlLabel.targetY = i;
-						grpControls.add(controlLabel);
-						// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-					}
+				{
+					var controlLabel:Alphabet = new Alphabet(0, (70 * i) + 30, options[i].getName(), true, false);
+					controlLabel.isMenuItem = true;
+					controlLabel.targetY = i;
+					grpControls.add(controlLabel);
+					// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+				}
+
 				curSelected = 0;
 			}
 
 			if (controls.UP_P)
 				changeSelection(-1);
-			if (controls.DOWN_P)
+			else if (controls.DOWN_P)
 				changeSelection(1);
 			
 			if (isCat)
@@ -133,12 +128,12 @@ class OptionsMenu extends MusicBeatState
 				if (currentSelectedCat.getOptions()[curSelected].getAccept())
 				{
 					if (FlxG.keys.pressed.SHIFT #if mobile || vPad.buttonC.pressed #end)
-						{
-							if (controls.RIGHT_P)
-								currentSelectedCat.getOptions()[curSelected].right();
-							else if (controls.LEFT_P)
-								currentSelectedCat.getOptions()[curSelected].left();
-						}
+					{
+						if (controls.RIGHT_P)
+							currentSelectedCat.getOptions()[curSelected].right();
+						else if (controls.LEFT_P)
+							currentSelectedCat.getOptions()[curSelected].left();
+					}
 					else
 					{
 						if (controls.RIGHT_P)
@@ -161,7 +156,7 @@ class OptionsMenu extends MusicBeatState
 					else if (controls.LEFT_P)
 						FlxG.save.data.offset -= 0.1;
 	
-					versionShit.text = "Offset (Left, Right, Shift to go faster): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+					versionShit.text = "Offset (Left, Right, Shift to go faster): " + FlxMath.roundDecimal(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 				}
 			}
 			else
@@ -171,9 +166,8 @@ class OptionsMenu extends MusicBeatState
 				else if (controls.LEFT_P)
 					FlxG.save.data.offset -= 0.1;
 
-				versionShit.text = "Offset (Left, Right, Shift to go faster): " + truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+				versionShit.text = "Offset (Left, Right, Shift to go faster): " + FlxMath.roundDecimal(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 			}
-		
 
 			if (controls.ACCEPT)
 			{

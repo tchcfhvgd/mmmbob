@@ -251,7 +251,7 @@ class PlayState extends MusicBeatState
 			+ ") "
 			+ generateRanking(),
 			"\nAcc: "
-			+ truncateFloat(accuracy, 2)
+			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% | Score: "
 			+ songScore
 			+ " | Misses: "
@@ -1246,7 +1246,7 @@ class PlayState extends MusicBeatState
 			+ ") "
 			+ generateRanking(),
 			"\nAcc: "
-			+ truncateFloat(accuracy, 2)
+			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% | Score: "
 			+ songScore
 			+ " | Misses: "
@@ -1513,7 +1513,7 @@ class PlayState extends MusicBeatState
 				+ ") "
 				+ generateRanking(),
 				"Acc: "
-				+ truncateFloat(accuracy, 2)
+				+ FlxMath.roundDecimal(accuracy, 2)
 				+ "% | Score: "
 				+ songScore
 				+ " | Misses: "
@@ -1552,7 +1552,7 @@ class PlayState extends MusicBeatState
 					+ ") "
 					+ generateRanking(),
 					"\nAcc: "
-					+ truncateFloat(accuracy, 2)
+					+ FlxMath.roundDecimal(accuracy, 2)
 					+ "% | Score: "
 					+ songScore
 					+ " | Misses: "
@@ -1590,7 +1590,7 @@ class PlayState extends MusicBeatState
 			+ ") "
 			+ generateRanking(),
 			"\nAcc: "
-			+ truncateFloat(accuracy, 2)
+			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% | Score: "
 			+ songScore
 			+ " | Misses: "
@@ -1601,14 +1601,6 @@ class PlayState extends MusicBeatState
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
-
-	function truncateFloat(number:Float, precision:Int):Float
-	{
-		var num = number;
-		num = num * Math.pow(10, precision);
-		num = Math.round(num) / Math.pow(10, precision);
-		return num;
-	}
 
 	function generateRanking():String
 	{
@@ -1759,7 +1751,7 @@ class PlayState extends MusicBeatState
 					+ " | Combo Breaks:"
 					+ misses
 					+ " | Accuracy:"
-					+ truncateFloat(accuracy, 2)
+					+ FlxMath.roundDecimal(accuracy, 2)
 					+ "% | "
 					+ generateRanking();
 			}
@@ -2063,7 +2055,7 @@ class PlayState extends MusicBeatState
 				+ ") "
 				+ generateRanking(),
 				"\nAcc: "
-				+ truncateFloat(accuracy, 2)
+				+ FlxMath.roundDecimal(accuracy, 2)
 				+ "% | Score: "
 				+ songScore
 				+ " | Misses: "
@@ -2410,7 +2402,7 @@ class PlayState extends MusicBeatState
 			rating.velocity.y -= FlxG.random.int(140, 175);
 			rating.velocity.x -= FlxG.random.int(0, 10);
 
-			var msTiming = truncateFloat(noteDiff, 3);
+			var msTiming = FlxMath.roundDecimal(noteDiff, 3);
 
 			if (currentTimingShown != null)
 				remove(currentTimingShown);
@@ -2448,7 +2440,7 @@ class PlayState extends MusicBeatState
 				for (i in hits)
 					total += i;
 
-				offsetTest = truncateFloat(total / hits.length, 2);
+				offsetTest = FlxMath.roundDecimal(total / hits.length, 2);
 			}
 
 			if (currentTimingShown.alpha != 1)
@@ -3274,7 +3266,7 @@ class PlayState extends MusicBeatState
 			+ ") "
 			+ generateRanking(),
 			"Acc: "
-			+ truncateFloat(accuracy, 2)
+			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% | Score: "
 			+ songScore
 			+ " | Misses: "
