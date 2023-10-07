@@ -36,7 +36,7 @@ class MusicBeatState extends FlxUIState
 	var trackedInputsHitbox:Array<FlxActionInput> = [];
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
-	public function addVirtualPad(dPad:FlxDPadMode, action:FlxActionMode, ?visible = true):Void
+	public function addVPad(dPad:FlxDPadMode, action:FlxActionMode, ?visible = true):Void
 	{
 		if (virtualPad != null)
 			removeVirtualPad();
@@ -50,7 +50,7 @@ class MusicBeatState extends FlxUIState
 		controls.trackedInputs = [];
 	}
 
-	public function addVirtualPadCamera(defaultDrawTarget:Bool = true):Void
+	public function addVPadCamera(defaultDrawTarget:Bool = true):Void
 	{
 		if (virtualPad != null)
 		{

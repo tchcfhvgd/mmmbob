@@ -13,11 +13,10 @@ jobs:
           haxe-version: latest
 
       - name: Installing Libraries
-        run: |
-          haxelib --quiet install formatter
+        run: haxelib --quiet install formatter
 
       - name: Formatting
-        run: haxelib run formatter -s sourceJon
+        run: haxelib run formatter -s sourceJon --check
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

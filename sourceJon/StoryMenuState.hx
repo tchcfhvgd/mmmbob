@@ -235,7 +235,7 @@ class StoryMenuState extends MusicBeatState
 		add(choose);
 
 		#if mobile
-		addVirtualPad(LEFT_FULL, A_B);
+		addVPad(LEFT_FULL, A_B);
 		#end
 
 		super.create();

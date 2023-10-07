@@ -88,7 +88,7 @@ class FreeplayState extends MusicBeatState
 		changeDiff();
 
 		#if mobile
-		addVirtualPad(LEFT_FULL, A_B);
+		addVPad(LEFT_FULL, A_B);
 		#end
 
 		super.create();
