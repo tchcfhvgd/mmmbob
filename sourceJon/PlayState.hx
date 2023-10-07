@@ -41,6 +41,7 @@ import openfl.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import openfl.system.System;
 
 using StringTools;
 
@@ -399,6 +400,7 @@ class PlayState extends MusicBeatState
 			case 'onslaught':
 				defaultCamZoom = 0.9;
 				curStage = 'slaught';
+
 				var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image('bob/scary_sky'));
 				bg.updateHitbox();
 				bg.active = false;
@@ -417,6 +419,7 @@ class PlayState extends MusicBeatState
 			case 'trouble':
 				defaultCamZoom = 0.9;
 				curStage = 'trouble';
+
 				var bg:FlxSprite = new FlxSprite(-100, 10).loadGraphic(Paths.image('bob/nothappy_sky'));
 				bg.updateHitbox();
 				bg.scale.x = 1.2;
@@ -445,6 +448,7 @@ class PlayState extends MusicBeatState
 			case 'ron' | 'little-man':
 				defaultCamZoom = 0.9;
 				curStage = 'ron';
+
 				var bg:FlxSprite = new FlxSprite(-100, 10).loadGraphic(Paths.image('bob/happyRon_sky'));
 				bg.updateHitbox();
 				bg.scale.x = 1.2;
@@ -465,6 +469,7 @@ class PlayState extends MusicBeatState
 			default:
 				defaultCamZoom = 0.9;
 				curStage = 'stage';
+
 				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
 				bg.antialiasing = true;
 				bg.scrollFactor.set(0.9, 0.9);
@@ -542,7 +547,15 @@ class PlayState extends MusicBeatState
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		doof.scrollFactor.set();
-		doof.finishThing = SONG.song.toLowerCase() == 'ron' ? RonIntro2 : startCountdown;
+		doof.finishThing = function()
+		{
+			System.gc();
+
+			if (SONG.song.toLowerCase() == 'ron')
+				RonIntro2();
+			else
+				startCountdown();
+		}
 		Conductor.songPosition = -5000;
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(FlxG.width, 10);
@@ -569,13 +582,10 @@ class PlayState extends MusicBeatState
 
 		add(camFollow);
 
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
-		// FlxG.camera.setScrollBounds(0, FlxG.width, 0, FlxG.height);
+		FlxG.camera.follow(camFollow, LOCKON, 0.04);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
-
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-
 		FlxG.fixedTimestep = false;
 
 		if (FlxG.save.data.songPosition) // I dont wanna talk about this code :(
@@ -617,7 +627,7 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		// Add Kade Engine watermark
-		var kadeEngineWatermark = new FlxText(4, healthBarBG.y
+		var kadeEngineWatermark:FlxText = new FlxText(4, healthBarBG.y
 			+ 50, 0,
 			SONG.song
 			+ " "
@@ -759,7 +769,7 @@ class PlayState extends MusicBeatState
 		boyfriend.visible = false;
 		gf.visible = false;
 		dad.visible = false;
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04);
 		// camFollow.y = boyfriend.getMidpoint().y;
 		camFollow.x = boyfriend.getMidpoint().x;
 		FlxG.camera.fade(FlxColor.BLACK, 1, true, function()
@@ -779,7 +789,7 @@ class PlayState extends MusicBeatState
 
 	function RonIntro2():Void
 	{
-		FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / cast(Lib.current.getChildAt(0), Main).getFPS()));
+		FlxG.camera.follow(camFollow, LOCKON, 0.04);
 		FlxG.sound.music.fadeIn(1, 0.5, 0);
 		// camFollow.y = boyfriend.getMidpoint().y;
 		camFollow.x = dad.getMidpoint().x;
@@ -1047,6 +1057,7 @@ class PlayState extends MusicBeatState
 				}
 			});
 		}
+
 		inCutscene = false;
 
 		generateStaticArrows(0);
@@ -1093,7 +1104,6 @@ class PlayState extends MusicBeatState
 			}
 
 			switch (swagCounter)
-
 			{
 				case 0:
 					FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
@@ -1155,7 +1165,6 @@ class PlayState extends MusicBeatState
 			}
 
 			swagCounter += 1;
-			// generateSong('fresh');
 		}, 5);
 	}
 
@@ -1245,16 +1254,13 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	var debugNum:Int = 0;
-
 	private function generateSong(dataPath:String):Void
 	{
-		// FlxG.log.add(ChartParser.parse());
+		FlxG.sound.cache(Paths.inst(PlayState.SONG.song));
 
-		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
+		Conductor.changeBPM(SONG.bpm);
 
-		curSong = songData.song;
+		curSong = SONG.song;
 
 		if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
@@ -1266,31 +1272,22 @@ class PlayState extends MusicBeatState
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		var noteData:Array<SwagSection>;
-
-		// NEW SHIT
-		noteData = songData.notes;
-
-		var playerCounter:Int = 0;
-
-		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
-		for (section in noteData)
+		for (section in SONG.notes)
 		{
 			var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
 			for (songNotes in section.sectionNotes)
 			{
 				var daStrumTime:Float = songNotes[0] + FlxG.save.data.offset;
+
 				if (daStrumTime < 0)
 					daStrumTime = 0;
+
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
 				var gottaHitNote:Bool = section.mustHitSection;
-
 				if (songNotes[1] > 3)
-				{
 					gottaHitNote = !section.mustHitSection;
-				}
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -1316,29 +1313,23 @@ class PlayState extends MusicBeatState
 					unspawnNotes.push(sustainNote);
 
 					sustainNote.mustPress = gottaHitNote;
-
 					if (sustainNote.mustPress)
-					{
 						sustainNote.x += FlxG.width / 2; // general offset
-					}
+
 					sustainNote.health = sustainNote.x;
 				}
 
 				swagNote.mustPress = gottaHitNote;
 
 				if (swagNote.mustPress)
-				{
 					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else
-				{
-				}
+
 				swagNote.health = swagNote.angle;
 			}
-			daBeats += 1;
 		}
 
-		var beatStepTime = 600 * (100 / songData.bpm);
+		var beatStepTime = 600 * (100 / SONG.bpm);
+
 		if (curSong == 'Onslaught')
 		{
 			if (storyDifficulty == 1)
@@ -1387,9 +1378,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		// trace(unspawnNotes.length);
-		// playerCounter += 1;
-
 		unspawnNotes.sort(sortByShit);
 
 		generatedMusic = true;
@@ -1404,7 +1392,6 @@ class PlayState extends MusicBeatState
 	{
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 
 			switch (curStage)
@@ -1537,6 +1524,8 @@ class PlayState extends MusicBeatState
 		}
 
 		super.openSubState(SubState);
+
+		System.gc();
 	}
 
 	override function closeSubState()
@@ -1579,6 +1568,8 @@ class PlayState extends MusicBeatState
 		}
 
 		super.closeSubState();
+
+		System.gc();
 	}
 
 	function resyncVocals():Void
@@ -1781,6 +1772,7 @@ class PlayState extends MusicBeatState
 		{
 			scoreTxt.text = "Suggested Offset: " + offsetTest;
 		}
+
 		if ((FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end) && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
