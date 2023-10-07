@@ -416,10 +416,14 @@ class StoryMenuState extends MusicBeatState
 	function changeDifficulty(change:Int = 0):Void
 	{
 		if (curWeek == 0)
-		{
 			curDifficulty_1 = FlxMath.wrap(curDifficulty_1 + change, 0, 2);
+		else if (curWeek == 1)
+			curDifficulty_2 = FlxMath.wrap(curDifficulty_2 + change, 0, 2);
 
+		if (curWeek == 0)
 			sprDifficulty_1.offset.x = 0;
+		else if (curWeek == 1)
+			sprDifficulty_2.offset.x = 0;
 
 		switch (curDifficulty_1)
 		{
@@ -433,19 +437,6 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty_1.animation.play('hard');
 				sprDifficulty_1.offset.x = 20;
 		}
-				sprDifficulty_1.alpha = 0;
-
-				sprDifficulty_1.y = leftArrow_1.y - 15;
-
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty_1);
-
-			FlxTween.tween(sprDifficulty_1, {y: leftArrow_1.y + 15, alpha: 1}, 0.07);
-		}
-		else if (curWeek == 1)
-		{
-			curDifficulty_2 = FlxMath.wrap(curDifficulty_2 + change, 0, 2);
-
-			sprDifficulty_2.offset.x = 0;
 
 		switch (curDifficulty_2)
 		{
@@ -459,14 +450,24 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty_2.animation.play('hard');
 				sprDifficulty_2.offset.x = 20;
 		}
-			sprDifficulty_2.alpha = 0;
 
-			sprDifficulty_2.y = leftArrow_2.y - 15;
-
-		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty_2);
-
-				FlxTween.tween(sprDifficulty_2, {y: leftArrow_2.y + 15, alpha: 1}, 0.07);
+		if (curWeek == 0)
+		{
+			sprDifficulty_1.alpha = 0;
+			sprDifficulty_1.y = leftArrow_1.y - 15;
+			FlxTween.tween(sprDifficulty_1, {y: leftArrow_1.y + 15, alpha: 1}, 0.07);
 		}
+		else if (curWeek == 1)
+		{
+			sprDifficulty_2.alpha = 0;
+			sprDifficulty_2.y = leftArrow_2.y - 15;
+			FlxTween.tween(sprDifficulty_2, {y: leftArrow_2.y + 15, alpha: 1}, 0.07);
+		}
+
+		if (curWeek == 0)
+			intendedScore = Highscore.getWeekScore(curWeek, curDifficulty_1);
+		else if (curWeek == 1)		
+			intendedScore = Highscore.getWeekScore(curWeek, curDifficulty_2);
 	}
 
 	var lerpScore:Int = 0;
