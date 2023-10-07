@@ -161,7 +161,7 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
 		if (waitTimer != null)
-			waitTimer.start(1, (tmr:FlxTimer) -> FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0));
+			waitTimer.start(1.5, (tmr:FlxTimer) -> FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0));
 
 		for (i in 0...grpSongs.members.length)
 		{
