@@ -6,7 +6,7 @@
 
 	<!--Application Settings-->
 
-	<meta title="Bob's Onslaught" packageName="com.ninjamuffin99.funkin" package="com.ninjamuffin99.funkin" version="0.2.7.1" company="ninjamuffin99" />
+	<meta title="Bob's Onslaught" packageName="com.wildythomas.bob" package="com.wildythomas.bob" version="0.2.7.1" company="wildythomas" />
 
 	<app file="BOB" main="Main" path="exportJon" preloader="flixel.system.FlxPreloader" />
 
@@ -17,8 +17,6 @@
 	<!--Icon Settings -->
 
 	<icon path="art/icon16.png" size="16" />
-	<icon path="art/icon32.png" size="32" />
-	<icon path="art/icon64.png" size="64" />
 	<icon path="art/iconOG.png" />
 
 	<!--Window Settings -->
