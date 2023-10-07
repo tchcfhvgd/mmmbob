@@ -120,9 +120,6 @@ class MainMenuState extends MusicBeatState
 		versionShit.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		// NG.core.calls.event.logEvent('swag').send();
-
-
 		if (FlxG.save.data.dfjk)
 			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
 		else
@@ -132,6 +129,8 @@ class MainMenuState extends MusicBeatState
 
 		#if mobile
 		addVPad(UP_DOWN, A_B);
+
+		vPad.y -= 18;
 		#end
 
 		super.create();
