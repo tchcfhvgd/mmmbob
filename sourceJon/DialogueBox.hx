@@ -13,7 +13,8 @@ import flixel.sound.FlxSound;
 
 using StringTools;
 
-class DialogueBox extends FlxSpriteGroup {
+class DialogueBox extends FlxSpriteGroup
+{
 	var box:FlxSprite;
 
 	var curCharacter:String = '';
@@ -39,10 +40,12 @@ class DialogueBox extends FlxSpriteGroup {
 
 	var BOOM:FlxSound;
 
-	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>) {
+	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
+	{
 		super();
 
-		switch (PlayState.SONG.song.toLowerCase()) {
+		switch (PlayState.SONG.song.toLowerCase())
+		{
 			case 'sunshine':
 				FlxG.sound.playMusic(Paths.music('PhaseOne'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
@@ -59,7 +62,8 @@ class DialogueBox extends FlxSpriteGroup {
 		bgFade.alpha = 0;
 		add(bgFade);
 
-		new FlxTimer().start(0.83, function(tmr:FlxTimer) {
+		new FlxTimer().start(0.83, function(tmr:FlxTimer)
+		{
 			bgFade.alpha += (1 / 5) * 0.7;
 			if (bgFade.alpha > 0.7)
 				bgFade.alpha = 0.7;
@@ -67,7 +71,8 @@ class DialogueBox extends FlxSpriteGroup {
 
 		var hasDialog:Bool = false;
 
-		switch (PlayState.SONG.song.toLowerCase()) {
+		switch (PlayState.SONG.song.toLowerCase())
+		{
 			case 'withered':
 				box = new FlxSprite(0, 0);
 				hasDialog = true;
@@ -93,7 +98,8 @@ class DialogueBox extends FlxSpriteGroup {
 
 		this.dialogueList = dialogueList;
 
-		if (PlayState.SONG.song.toLowerCase() == 'onslaught') {
+		if (PlayState.SONG.song.toLowerCase() == 'onslaught')
+		{
 			portraitGloop = new FlxSprite(0, 0);
 			portraitGloop.frames = Paths.getSparrowAtlas('bob/glitchedBobPortrait');
 			portraitGloop.animation.addByPrefix('enter', 'Bob Enter', 24, false);
@@ -101,7 +107,9 @@ class DialogueBox extends FlxSpriteGroup {
 			portraitGloop.scrollFactor.set();
 			add(portraitGloop);
 			portraitGloop.visible = false;
-		} else {
+		}
+		else
+		{
 			portraitGloop = new FlxSprite(0, 0);
 			portraitGloop.frames = Paths.getSparrowAtlas('bob/gloopBobPortrait');
 			portraitGloop.animation.addByPrefix('enter', 'Bob Enter', 24, false);
@@ -116,7 +124,8 @@ class DialogueBox extends FlxSpriteGroup {
 
 		if (PlayState.SONG.song.toLowerCase() == 'senpai'
 			|| PlayState.SONG.song.toLowerCase() == 'roses'
-			|| PlayState.SONG.song.toLowerCase() == 'thorns') {
+			|| PlayState.SONG.song.toLowerCase() == 'thorns')
+		{
 			portraitLeft = new FlxSprite(-20, 40);
 			portraitLeft.frames = Paths.getSparrowAtlas('weeb/senpaiPortrait');
 			portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
@@ -126,7 +135,8 @@ class DialogueBox extends FlxSpriteGroup {
 			add(portraitLeft);
 			portraitLeft.visible = false;
 		}
-		if (PlayState.SONG.song.toLowerCase() == 'sunshine') {
+		if (PlayState.SONG.song.toLowerCase() == 'sunshine')
+		{
 			portraitLeft = new FlxSprite(0, 0);
 			portraitLeft.frames = Paths.getSparrowAtlas('bob/bobPortrait');
 			portraitLeft.animation.addByPrefix('enter', 'Bob Portrait Enter', 24, false);
@@ -135,7 +145,8 @@ class DialogueBox extends FlxSpriteGroup {
 			add(portraitLeft);
 			portraitLeft.visible = false;
 		}
-		if (PlayState.SONG.song.toLowerCase() == 'withered') {
+		if (PlayState.SONG.song.toLowerCase() == 'withered')
+		{
 			portraitLeft = new FlxSprite(0, 0);
 			portraitLeft.frames = Paths.getSparrowAtlas('bob/bobPortraitPOAT');
 			portraitLeft.animation.addByPrefix('enter', 'Bob Portrait Enter Mad', 24, false);
@@ -144,7 +155,8 @@ class DialogueBox extends FlxSpriteGroup {
 			add(portraitLeft);
 			portraitLeft.visible = false;
 		}
-		if (PlayState.SONG.song.toLowerCase() == 'run') {
+		if (PlayState.SONG.song.toLowerCase() == 'run')
+		{
 			portraitLeft = new FlxSprite(0, 0);
 			portraitLeft.frames = Paths.getSparrowAtlas('bob/bobPortraitPOAT');
 			portraitLeft.animation.addByPrefix('enter', 'Bob Portrait Enter HELL', 24, false);
@@ -153,7 +165,8 @@ class DialogueBox extends FlxSpriteGroup {
 			add(portraitLeft);
 			portraitLeft.visible = false;
 		}
-		if (PlayState.SONG.song.toLowerCase() == 'ron' || PlayState.SONG.song.toLowerCase() == 'trouble') {
+		if (PlayState.SONG.song.toLowerCase() == 'ron' || PlayState.SONG.song.toLowerCase() == 'trouble')
+		{
 			portraitLeft = new FlxSprite(0, 0);
 			portraitLeft.frames = Paths.getSparrowAtlas('bob/ronPortrait');
 			portraitLeft.animation.addByPrefix('enter', 'Ron Enter', 24, false);
@@ -212,11 +225,13 @@ class DialogueBox extends FlxSpriteGroup {
 	var dialogueOpened:Bool = false;
 	var dialogueStarted:Bool = false;
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float)
+	{
 		// HARD CODING CUZ IM STUPDI
 		if (PlayState.SONG.song.toLowerCase() == 'roses')
 			portraitLeft.visible = false;
-		else if (PlayState.SONG.song.toLowerCase() == 'thorns') {
+		else if (PlayState.SONG.song.toLowerCase() == 'thorns')
+		{
 			portraitLeft.color = FlxColor.BLACK;
 			swagDialogue.color = FlxColor.WHITE;
 			dropText.color = FlxColor.BLACK;
@@ -224,14 +239,17 @@ class DialogueBox extends FlxSpriteGroup {
 
 		dropText.text = swagDialogue.text;
 
-		if (box.animation.curAnim != null) {
-			if (box.animation.curAnim.name == 'normalOpen' && box.animation.curAnim.finished) {
+		if (box.animation.curAnim != null)
+		{
+			if (box.animation.curAnim.name == 'normalOpen' && box.animation.curAnim.finished)
+			{
 				box.animation.play('normal');
 				dialogueOpened = true;
 			}
 		}
 
-		if (dialogueOpened && !dialogueStarted) {
+		if (dialogueOpened && !dialogueStarted)
+		{
 			startDialogue();
 			dialogueStarted = true;
 		}
@@ -244,12 +262,16 @@ class DialogueBox extends FlxSpriteGroup {
 				justPressed = true;
 		#end
 
-		if ((FlxG.keys.justPressed.ANY #if mobile || justPressed #end) && dialogueStarted == true) {
-			if (caniskip == true) {
+		if ((FlxG.keys.justPressed.ANY #if mobile || justPressed #end) && dialogueStarted == true)
+		{
+			if (caniskip == true)
+			{
 				FlxG.sound.play(Paths.sound('clickText'), 0.8);
 
-				if (dialogueList[1] == null && dialogueList[0] != null) {
-					if (!isEnding) {
+				if (dialogueList[1] == null && dialogueList[0] != null)
+				{
+					if (!isEnding)
+					{
 						isEnding = true;
 
 						if (PlayState.SONG.song.toLowerCase() == 'senpai'
@@ -261,7 +283,8 @@ class DialogueBox extends FlxSpriteGroup {
 							|| PlayState.SONG.song.toLowerCase() == 'ron')
 							FlxG.sound.music.fadeOut(2.2, 0);
 
-						new FlxTimer().start(0.2, function(tmr:FlxTimer) {
+						new FlxTimer().start(0.2, function(tmr:FlxTimer)
+						{
 							box.alpha -= 1 / 5;
 							bgFade.alpha -= 1 / 5 * 0.7;
 
@@ -278,12 +301,15 @@ class DialogueBox extends FlxSpriteGroup {
 							dropText.alpha = swagDialogue.alpha;
 						}, 5);
 
-						new FlxTimer().start(1.2, function(tmr:FlxTimer) {
+						new FlxTimer().start(1.2, function(tmr:FlxTimer)
+						{
 							finishThing();
 							kill();
 						});
 					}
-				} else {
+				}
+				else
+				{
 					dialogueList.remove(dialogueList[0]);
 					startDialogue();
 				}
@@ -295,14 +321,16 @@ class DialogueBox extends FlxSpriteGroup {
 
 	var isEnding:Bool = false;
 
-	function startDialogue():Void {
+	function startDialogue():Void
+	{
 		cleanDialog();
 
 		if (dialogueList[0] == '....' && curCharacter == 'gloopBob')
 			FlxG.openURL('https://ayetsg.github.io/img/bob_says_fuck_you.jpg');
 
 		if (dialogueList[0] == 'this is the part where bob absolubley destroys the dialog box like an awesome person'
-			&& curCharacter == 'dad') {
+			&& curCharacter == 'dad')
+		{
 			caniskip == false;
 			box.animation.play('bobCRUSH');
 			portraitLeft.visible = false;
@@ -311,25 +339,31 @@ class DialogueBox extends FlxSpriteGroup {
 			portraitRightBF.visible = false;
 			portraitRightGF.visible = false;
 
-			new FlxTimer().start(0.6, function(tmr:FlxTimer) {
+			new FlxTimer().start(0.6, function(tmr:FlxTimer)
+			{
 				FlxG.sound.play(Paths.sound('Squeaky'));
 				swagDialogue.resetText(dialogueList[0]);
-				new FlxTimer().start(0.7, function(tmr:FlxTimer) {
+				new FlxTimer().start(0.7, function(tmr:FlxTimer)
+				{
 					FlxG.sound.playMusic(Paths.music('ByYourSide'));
 					caniskip == true;
 				});
 			});
-		} else {
+		}
+		else
+		{
 			swagDialogue.resetText(dialogueList[0]);
 			swagDialogue.start(0.04, true);
 
-			switch (curCharacter) {
+			switch (curCharacter)
+			{
 				case 'doodoofartasslol':
 					portraitRight.visible = false;
 					portraitRightBF.visible = false;
 					portraitLeft.visible = false;
 					portraitGloop.visible = false;
-					if (!portraitRightGF.visible) {
+					if (!portraitRightGF.visible)
+					{
 						portraitRightGF.visible = true;
 						portraitRightGF.animation.play('enter');
 					}
@@ -338,7 +372,8 @@ class DialogueBox extends FlxSpriteGroup {
 					portraitRightBF.visible = false;
 					portraitRight.visible = false;
 					portraitGloop.visible = false;
-					if (!portraitLeft.visible) {
+					if (!portraitLeft.visible)
+					{
 						portraitLeft.visible = true;
 						portraitLeft.animation.play('enter');
 					}
@@ -351,12 +386,14 @@ class DialogueBox extends FlxSpriteGroup {
 					else
 						portraitLeft.visible = false;
 
-					if (!portraitRight.visible) {
+					if (!portraitRight.visible)
+					{
 						portraitRight.visible = true;
 						portraitRight.animation.play('enterNormal');
 					}
 				case 'bfsad':
-					if (BOOM != null && BOOM.playing) {
+					if (BOOM != null && BOOM.playing)
+					{
 						BOOM.stop();
 					}
 
@@ -367,7 +404,8 @@ class DialogueBox extends FlxSpriteGroup {
 					portraitRight.visible = false;
 					portraitLeft.visible = false;
 					portraitGloop.visible = false;
-					if (!portraitRightBF.visible) {
+					if (!portraitRightBF.visible)
+					{
 						portraitRightBF.visible = true;
 						portraitRightBF.animation.play('enterSad');
 						FlxG.sound.music.stop();
@@ -377,7 +415,8 @@ class DialogueBox extends FlxSpriteGroup {
 					portraitRight.visible = false;
 					portraitLeft.visible = false;
 					portraitGloop.visible = false;
-					if (!portraitRightBF.visible) {
+					if (!portraitRightBF.visible)
+					{
 						portraitRightBF.visible = true;
 						portraitRightBF.animation.play('enterShocked');
 					}
@@ -390,7 +429,8 @@ class DialogueBox extends FlxSpriteGroup {
 					else
 						portraitLeft.visible = false;
 
-					if (!portraitGloop.visible) {
+					if (!portraitGloop.visible)
+					{
 						portraitGloop.visible = true;
 						portraitGloop.animation.play('enter');
 					}
@@ -398,7 +438,8 @@ class DialogueBox extends FlxSpriteGroup {
 		}
 	}
 
-	function cleanDialog():Void {
+	function cleanDialog():Void
+	{
 		var splitName:Array<String> = dialogueList[0].split(":");
 		curCharacter = splitName[1];
 		dialogueList[0] = dialogueList[0].substr(splitName[1].length + 2).trim();

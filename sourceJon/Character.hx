@@ -112,7 +112,7 @@ class Character extends FlxSprite
 				addOffset('deathLoop', 37, 5);
 				addOffset('deathConfirm', 37, 69);
 				addOffset('scared', -4);
-				addOffset('hit', 16,19);
+				addOffset('hit', 16, 19);
 
 				playAnim('idle');
 
@@ -124,10 +124,10 @@ class Character extends FlxSprite
 				animation.addByPrefix('firstDeath', "BF idle dance", 24, false);
 				animation.addByIndices('deathLoop', "BF idle dance", [44], "", 24, true);
 				animation.addByIndices('deathConfirm', "BF idle dance", [44], "", 24, false);
-				
-				addOffset('firstDeath', 287,79);
+
+				addOffset('firstDeath', 287, 79);
 				addOffset('deathLoop', 287, 79);
-				addOffset('deathConfirm', 287,79);
+				addOffset('deathConfirm', 287, 79);
 
 				// pixel bullshit
 				updateHitbox();
@@ -157,20 +157,20 @@ class Character extends FlxSprite
 
 				flipX = true;
 
-				case 'gloop-bob':
-					frames = Paths.getSparrowAtlas('bob/oohscary');
+			case 'gloop-bob':
+				frames = Paths.getSparrowAtlas('bob/oohscary');
 
-					animation.addByPrefix('idle', "bob_idle", 24, false);
-					animation.addByPrefix('singUP', 'bob_UP', 24, false);
-					animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
-					animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
-					animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
-					animation.addByPrefix('Transform', 'bob_transform', 24, false);
-	
-					addOffset('idle');
-	
-					flipX = false;
-				
+				animation.addByPrefix('idle', "bob_idle", 24, false);
+				animation.addByPrefix('singUP', 'bob_UP', 24, false);
+				animation.addByPrefix('singDOWN', 'bob_DOWN', 24, false);
+				animation.addByPrefix('singLEFT', 'bob_LEFT', 24, false);
+				animation.addByPrefix('singRIGHT', 'bob_RIGHT', 24, false);
+				animation.addByPrefix('Transform', 'bob_transform', 24, false);
+
+				addOffset('idle');
+
+				flipX = false;
+
 			case 'angrybob':
 				frames = Paths.getSparrowAtlas('bob/angrybob_asset');
 
@@ -183,7 +183,7 @@ class Character extends FlxSprite
 				addOffset('idle');
 
 				flipX = true;
-			
+
 			case 'hellbob':
 				frames = Paths.getSparrowAtlas(FlxG.save.data.happybob ? 'bob/happy/hellbob_assets' : 'bob/hellbob_assets');
 
@@ -213,30 +213,30 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 40, -120);
 				addOffset("Ugh", 71, -40);
 			case 'little-man':
-					frames = Paths.getSparrowAtlas('Small_Guy');
+				frames = Paths.getSparrowAtlas('Small_Guy');
 
-					animation.addByPrefix('idle', "idle", 24);
-					animation.addByPrefix('singUP', 'up', 24, false);
-					animation.addByPrefix('singDOWN', 'down', 24, false);
-					animation.addByPrefix('singLEFT', 'left', 24, false);
-					animation.addByPrefix('singRIGHT', 'right', 24, false);
+				animation.addByPrefix('idle', "idle", 24);
+				animation.addByPrefix('singUP', 'up', 24, false);
+				animation.addByPrefix('singDOWN', 'down', 24, false);
+				animation.addByPrefix('singLEFT', 'left', 24, false);
+				animation.addByPrefix('singRIGHT', 'right', 24, false);
 
-					addOffset('idle');
-					addOffset("singUP", -10, 8);
-					addOffset("singLEFT", -8, 0);
-					addOffset("singRIGHT", 0, 2);
-					addOffset("singDOWN", 0, -10);
+				addOffset('idle');
+				addOffset("singUP", -10, 8);
+				addOffset("singLEFT", -8, 0);
+				addOffset("singRIGHT", 0, 2);
+				addOffset("singDOWN", 0, -10);
 			case 'pizza':
-					frames = Paths.getSparrowAtlas('littleman/PizzaMan');
+				frames = Paths.getSparrowAtlas('littleman/PizzaMan');
 
-					animation.addByPrefix('idle', "PizzasHere", 29);
-					animation.addByPrefix('fall', "PizzasHere", 29);
-					animation.addByPrefix('singUP', 'Up', 29, false);
-					animation.addByPrefix('singDOWN', 'Down', 29, false);
-					animation.addByPrefix('singLEFT', 'Left', 29, false);
-					animation.addByPrefix('singRIGHT', 'Right', 29, false);
+				animation.addByPrefix('idle', "PizzasHere", 29);
+				animation.addByPrefix('fall', "PizzasHere", 29);
+				animation.addByPrefix('singUP', 'Up', 29, false);
+				animation.addByPrefix('singDOWN', 'Down', 29, false);
+				animation.addByPrefix('singLEFT', 'Left', 29, false);
+				animation.addByPrefix('singRIGHT', 'Right', 29, false);
 
-					addOffset('idle');
+				addOffset('idle');
 			case 'tankman':
 				frames = Paths.getSparrowAtlas('Tankman');
 
