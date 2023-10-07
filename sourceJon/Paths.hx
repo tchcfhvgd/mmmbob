@@ -12,8 +12,8 @@ class Paths
 		if (library != null)
 			return getLibraryPath(file, library);
 
-		var levelPath:String = getLibraryPathForce(file, "shared");
-		if (OpenFlAssets.exists(levelPath, type))
+		final levelPath:String = getLibraryPathForce(file, "shared");
+		if (Assets.exists(levelPath, type))
 			return levelPath;
 
 		return getPreloadPath(file);
