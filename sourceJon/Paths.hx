@@ -1,9 +1,9 @@
 package;
 
-import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.FlxG;
 import openfl.utils.AssetType;
-import openfl.utils.Assets as OpenFlAssets;
+import openfl.utils.Assets;
 
 class Paths
 {
@@ -84,14 +84,19 @@ class Paths
 		return getPath('images/$key.png', IMAGE, library);
 	}
 
-	inline static public function font(key:String):String
-	{
-		return getPreloadPath('fonts/$key');
-	}
-
 	inline static public function video(key:String):String
 	{
 		return getPreloadPath('videos/$key.webm');
+	}
+
+	inline static public function font(key:String):String
+	{
+		final path:String = getPreloadPath('fonts/$key');
+
+		if (Assets.exists(path, FONT))
+			return Assets.getFont(path).fontName;
+			
+		return null;
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String):FlxAtlasFrames
