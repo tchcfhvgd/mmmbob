@@ -142,11 +142,11 @@ class FreeplayState extends MusicBeatState
 
 	private function changeDiff(change:Int = 0):Void
 	{
-		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, difficultyArray.length - 1);
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, CoolUtil.difficultyArray.length - 1);
 
 		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
-		diffText.text = difficultyArray[curDifficulty];
+		diffText.text = CoolUtil.difficultyArray[curDifficulty];
 	}
 
 	private function changeSelection(change:Int = 0):Void
