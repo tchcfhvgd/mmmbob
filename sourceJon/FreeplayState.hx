@@ -132,26 +132,27 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
-	function changeDiff(change:Int = 0)
+	override function destroy():Void
 	{
-		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, 2);
+		if (waitTimer != null)
+			waitTimer.cancel();
+
+		super.destroy();
+	}
+
+	private function changeDiff(change:Int = 0):Void
+	{
+		curDifficulty = FlxMath.wrap(curDifficulty + change, 0, difficultyArray.length - 1);
 
 		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "EASY";
-			case 1:
-				diffText.text = 'NORMAL';
-			case 2:
-				diffText.text = "HARD";
-		}
+		diffText.text = difficultyArray[curDifficulty];
 	}
 
-	function changeSelection(change:Int = 0)
+	private function changeSelection(change:Int = 0):Void
 	{
-		waitTimer.cancel();
+		if (waitTimer != null)
+			waitTimer.cancel();
 
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
@@ -159,7 +160,8 @@ class FreeplayState extends MusicBeatState
 
 		intendedScore = Highscore.getScore(songs[curSelected].name, curDifficulty);
 
-		waitTimer.start(1, (tmr:FlxTimer) -> FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0));
+		if (waitTimer != null)
+			waitTimer.start(1, (tmr:FlxTimer) -> FlxG.sound.playMusic(Paths.inst(songs[curSelected].name), 0));
 
 		for (i in 0...grpSongs.members.length)
 		{
