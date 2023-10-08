@@ -88,6 +88,8 @@ class OptionsMenu extends MusicBeatState
 
 		#if mobile
 		addVPad(LEFT_FULL, A_B_C);
+
+		vPad.y -= 18;
 		#end
 
 		super.create();
