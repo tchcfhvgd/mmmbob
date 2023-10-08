@@ -1,4 +1,4 @@
-name: Compile
+name: Release
 on: workflow_dispatch
 jobs:
   Android:
