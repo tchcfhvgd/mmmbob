@@ -36,10 +36,10 @@ class MusicBeatState extends FlxUIState
 	var trackedInputsHitbox:Array<FlxActionInput> = [];
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
-	public function addVPad(dPad:FlxDPadMode, action:FlxActionMode, ?visible = true):Void
+	public function addVPad(dPad:FlxDPadMode, action:FlxActionMode, ?visible:Bool = true):Void
 	{
 		if (vPad != null)
-			removeVirtualPad();
+			removeVPad();
 
 		vPad = new FlxVirtualPad(dPad, action);
 		vPad.visible = visible;
@@ -61,7 +61,7 @@ class MusicBeatState extends FlxUIState
 		}
 	}
 
-	public function removeVirtualPad():Void
+	public function removeVPad():Void
 	{
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVControlsInput(trackedInputsVirtualPad);
@@ -70,12 +70,12 @@ class MusicBeatState extends FlxUIState
 			remove(vPad);
 	}
 
-	public function addHitbox(?visible = true):Void
+	public function addHitbox(?visible:Bool = true):Void
 	{
 		if (hitbox != null)
 			removeHitbox();
 
-		hitbox = new FlxHitbox(4, Std.int(FlxG.width / 4), FlxG.height, [0xFF00FF, 0x00FFFF, 0x00FF00, 0xFF0000]);
+		hitbox = new FlxHitbox(4, Std.int(FlxG.width / 4), FlxG.height, [0xC34B9A, 0x00FFFF, 0x12FB06, 0xF9393F]);
 		hitbox.visible = visible;
 		add(hitbox);
 
