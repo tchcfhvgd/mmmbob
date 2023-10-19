@@ -72,10 +72,16 @@ class Main extends Sprite
 		#end
 
 		fps = new FPS(10, 3, 0xFFFFFF);
+
 		#if (mobile || switch)
 		fps.scaleX = fps.scaleY = Math.min(FlxG.stage.stageWidth / FlxG.width, FlxG.stage.stageHeight / FlxG.height);
 		#end
+
+		#if !mobile
 		addChild(fps);
+		#else
+		FlxG.game.addChild(fps);
+		#end
 
 		toggleFPS(FlxG.save.data.fps);
 	}
