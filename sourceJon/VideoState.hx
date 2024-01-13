@@ -36,8 +36,6 @@ class VideoState extends MusicBeatState
 	{
 		add(new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK));
 
-		super.create();
-
 		#if FEATURE_VIDEOS
 		video = new FlxVideo();
 		video.onEndReached.add(function()
@@ -48,12 +46,19 @@ class VideoState extends MusicBeatState
 			FlxG.sound.music.volume = fuckingVolume;
 			FlxG.switchState(transClass);
 		});
-		video.play(leSource);
+		video.load(leSource);
+
+		new FlxTimer().start(0.001, function(tmr:FlxTimer):Void
+		{
+			video.play();
+		});
 		#else
 		FlxG.autoPause = true;
 		FlxG.sound.music.volume = fuckingVolume;
 		FlxG.switchState(transClass);
 		#end
+
+		super.create();
 	}
 	
 	#if FEATURE_VIDEOS
