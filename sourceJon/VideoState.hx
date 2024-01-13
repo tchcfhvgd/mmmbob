@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 #if FEATURE_VIDEOS
 import hxvlc.flixel.FlxVideo;
 #end
